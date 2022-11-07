@@ -14,15 +14,13 @@ const app = Vue.createApp({
     methods: {
         init() {
             this.drawField();
-            console.info("Init done");
         },
         drawField() {
             for (let i = 0; i < 5; i++) {
                 this.chessboard[i] = ['-', '-', '-', '-', '-'];
-                console.log(this.chessboard)
                 for (let j = 0; j < 5; j++) {
-                    if (i == 0) { this.chessboard[i][j] = j % 2 == 0 ? 'A' : 'B'; }
-                    else if (i == 4) { this.chessboard[i][j] = j % 2 == 0 ? 'B' : 'A'; }
+                    if (i == 0) { this.chessboard[i][j] = j % 2 == 0 ? 'B' : 'A'; }
+                    else if (i == 4) { this.chessboard[i][j] = j % 2 == 0 ? 'A' : 'B'; }
                     else if (i == 2 && j == 0) { this.chessboard[i][j] = 'A' }
                     else if (i == 2 && j == 4) { this.chessboard[i][j] = 'B' }
                 }
