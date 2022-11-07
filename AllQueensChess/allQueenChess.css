@@ -3,9 +3,13 @@
     width: 50%;
     table-layout: fixed;
 }
-#targetTable tr td{
+td{
     border: 2px solid black;
     width: 10%;
     max-height: 10%;
     overflow: hidden;
+}
+.chosen{
+    border: 5px solid red;
+    border-radius: 3px;
 }

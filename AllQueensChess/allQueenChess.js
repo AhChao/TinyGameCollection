@@ -4,6 +4,7 @@ const app = Vue.createApp({
         return {
             chessboard: [],
             lastStepChessboard: [],
+            chosen: [0, 0]
         };
     },
     mounted() {

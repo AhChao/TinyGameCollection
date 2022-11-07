@@ -11,8 +11,8 @@
     <h1>All Queen Chess</h1>
     <table id="targetTable">
       <tbody>
-        <tr v-for="line in chessboard">
-          <td v-for="cell in line">{{cell}}</td>
+        <tr v-for="(line,lineIndex) in chessboard">
+          <td v-for="(cell,cellIndex) in line" :class="{chosen:lineIndex==chosen[0]&&cellIndex==chosen[1]}">{{cell}}</td>
         </tr>
       </tbody>
     </table>
