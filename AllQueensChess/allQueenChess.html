@@ -5,11 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="./allQueenChess.css" />
   </head>
   <body id="app">
     <h1>All Queen Chess</h1>
-    <table>
-      <tbody id="targetTable">
+    <table id="targetTable">
+      <tbody>
         <tr v-for="line in chessboard">
           <td v-for="cell in line">{{cell}}</td>
         </tr>
