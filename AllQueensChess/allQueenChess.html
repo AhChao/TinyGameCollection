@@ -12,7 +12,7 @@
     <table id="targetTable">
       <tbody>
         <tr v-for="(line,lineIndex) in chessboard">
-          <td v-for="(cell,cellIndex) in line" :class="{chosen:lineIndex==chosen[0]&&cellIndex==chosen[1]}">{{cell}}</td>
+          <td v-for="(cell,cellIndex) in line" :class="{chosen:lineIndex==chosen[0]&&cellIndex==chosen[1]&&isChoosing}" @click="selectCell(lineIndex,cellIndex)">{{cell}}</td>
         </tr>
       </tbody>
     </table>

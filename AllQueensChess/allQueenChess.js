@@ -4,7 +4,8 @@ const app = Vue.createApp({
         return {
             chessboard: [],
             lastStepChessboard: [],
-            chosen: [0, 0]
+            chosen: [0, 0],
+            isChoosing: false,
         };
     },
     mounted() {
@@ -26,6 +27,10 @@ const app = Vue.createApp({
                     else if (i == 2 && j == 4) { this.chessboard[i][j] = 'B' }
                 }
             }
+        },
+        selectCell(lineIndex, cellIndex) {
+            this.chosen = [lineIndex, cellIndex];
+            this.isChoosing = true;
         }
     }
 });
