@@ -9,11 +9,15 @@
   </head>
   <body id="app">
     <h1>All Queen Chess</h1>
-    <span>Now is Player {{playerTurn}}'s turn</span>
+    <span>Now is Player {{playerTurn}}'s turn</span><br />
+    <span>Player A <img src="./img/A.png" /></span>
+    <span>Player B <img src="./img/B.png" /></span>
     <table id="targetTable">
       <tbody>
         <tr v-for="(line,lineIndex) in chessboard">
-          <td v-for="(cell,cellIndex) in line" :class="{chosen:lineIndex==chosen[0]&&cellIndex==chosen[1]&&isChoosing}" @click="selectCell(lineIndex,cellIndex)">{{cell}}</td>
+          <td v-for="(cell,cellIndex) in line" :class="{chosen:lineIndex==chosen[0]&&cellIndex==chosen[1]&&isChoosing}" @click="selectCell(lineIndex,cellIndex)">
+            <img class="chessImg" :src="'./img/'+(cell=='-'?'space':cell)+'.png'" />
+          </td>
         </tr>
       </tbody>
     </table>
