@@ -44,6 +44,7 @@ const app = Vue.createApp({
                     return;
                 }
                 if (this.isValidStep(lineIndex, cellIndex)) {
+                    this.lastStepChessboard = JSON.parse(JSON.stringify(this.chessboard));
                     this.chessboard[this.chosen[0]][this.chosen[1]] = '-';
                     this.chessboard[lineIndex][cellIndex] = this.playerTurn;
                     this.isChoosing = false;
@@ -101,6 +102,12 @@ const app = Vue.createApp({
                 return cell[0] == lineIndex && cell[1] == cellIndex;
             });
         },
+        revertLastStep() {
+            this.chessboard = JSON.parse(JSON.stringify(this.lastStepChessboard));
+            this.playerTurn = this.playerTurn == 'A' ? 'B' : 'A';
+            this.isChoosing = false;
+            this.validCell = [];
+        }
     }
 });
 app.mount('#app');
