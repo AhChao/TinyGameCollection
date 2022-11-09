@@ -4,6 +4,7 @@ const app = Vue.createApp({
         return {
             chessboard: [],
             lastStepChessboard: [],
+            validCell: [],
             chosen: [0, 0],
             isChoosing: false,
             playerTurn: "A",
@@ -35,12 +36,14 @@ const app = Vue.createApp({
                 if (this.getPosInfo(lineIndex, cellIndex) == this.playerTurn) {
                     this.chosen = [lineIndex, cellIndex];
                     this.isChoosing = true;
+                    this.updateValidCellToMove(lineIndex, cellIndex);
                     return;
                 }
-                if (this.isValidStep(this.chosen, [lineIndex, cellIndex])) {
+                if (this.isValidStep(lineIndex, cellIndex)) {
                     this.chessboard[this.chosen[0]][this.chosen[1]] = '-';
                     this.chessboard[lineIndex][cellIndex] = this.playerTurn;
                     this.isChoosing = false;
+                    this.validCell = [];
                     this.playerTurn = this.playerTurn == 'A' ? 'B' : 'A';
                     return;
                 }
@@ -48,18 +51,52 @@ const app = Vue.createApp({
             }
             this.chosen = [lineIndex, cellIndex];
             this.isChoosing = true;
-        },
-        isValidStep(lastPos, newPos) {
-            let oldX = lastPos[0];
-            let oldY = lastPos[1];
-            let newX = newPos[0];
-            let newY = newPos[1];
-            if (this.getPosInfo(newX, newY) != '-') return false;
-            return true;
+            this.updateValidCellToMove(lineIndex, cellIndex);
         },
         getPosInfo(lineIndex, cellIndex) {
             return this.chessboard[lineIndex][cellIndex];
-        }
+        },
+        updateValidCellToMove(lineIndex, cellIndex) {
+            this.validCell = [];
+            for (let i = lineIndex - 1; i >= 0; i--) {
+                if (this.getPosInfo(i, cellIndex) == '-') this.validCell.push([i, cellIndex]);
+                else break;
+            }
+            for (let i = lineIndex + 1; i <= 4; i++) {
+                if (this.getPosInfo(i, cellIndex) == '-') this.validCell.push([i, cellIndex]);
+                else break;
+            }
+            for (let i = cellIndex - 1; i >= 0; i--) {
+                if (this.getPosInfo(lineIndex, i) == '-') this.validCell.push([lineIndex, i]);
+                else break;
+            }
+            for (let i = cellIndex + 1; i <= 4; i++) {
+                if (this.getPosInfo(lineIndex, i) == '-') this.validCell.push([lineIndex, i]);
+                else break;
+            }
+            for (let i = lineIndex + 1, j = cellIndex + 1; i <= 4; i++, j++) {
+                if (this.getPosInfo(i, j) == '-') this.validCell.push([i, j]);
+                else break;
+            }
+            for (let i = lineIndex - 1, j = cellIndex - 1; i >= 0; i--, j--) {
+                if (this.getPosInfo(i, j) == '-') this.validCell.push([i, j]);
+                else break;
+            }
+            for (let i = lineIndex - 1, j = cellIndex + 1; i >= 0; i--, j++) {
+                if (this.getPosInfo(i, j) == '-') this.validCell.push([i, j]);
+                else break;
+            }
+            for (let i = lineIndex + 1, j = cellIndex - 1; i <= 4; i++, j--) {
+                if (this.getPosInfo(i, j) == '-') this.validCell.push([i, j]);
+                else break;
+            }
+
+        },
+        isValidStep(lineIndex, cellIndex) {
+            return this.validCell.some(cell => {
+                return cell[0] == lineIndex && cell[1] == cellIndex;
+            });
+        },
     }
 });
 app.mount('#app');

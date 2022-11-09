@@ -15,7 +15,7 @@
     <table id="targetTable">
       <tbody>
         <tr v-for="(line,lineIndex) in chessboard">
-          <td v-for="(cell,cellIndex) in line" :class="{chosen:lineIndex==chosen[0]&&cellIndex==chosen[1]&&isChoosing}" @click="selectCell(lineIndex,cellIndex)">
+          <td v-for="(cell,cellIndex) in line" :class="{chosen:lineIndex==chosen[0]&&cellIndex==chosen[1]&&isChoosing, cellWithHint:isValidStep(lineIndex,cellIndex)}" @click="selectCell(lineIndex,cellIndex)">
             <img class="chessImg" :src="'./img/'+(cell=='-'?'space':cell)+'.png'" />
           </td>
         </tr>
