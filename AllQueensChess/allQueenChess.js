@@ -50,6 +50,7 @@ const app = Vue.createApp({
                     this.isChoosing = false;
                     this.validCell = [];
                     this.playerTurn = this.playerTurn == 'A' ? 'B' : 'A';
+                    this.isWinTheGameByLastChess(lineIndex, cellIndex);
                     return;
                 }
                 return;
@@ -107,6 +108,72 @@ const app = Vue.createApp({
             this.playerTurn = this.playerTurn == 'A' ? 'B' : 'A';
             this.isChoosing = false;
             this.validCell = [];
+        },
+        isWinTheGameByLastChess(lineIndex, cellIndex) {
+            let lastChessOwner = this.getPosInfo(lineIndex, cellIndex);
+            let count = 1;
+            for (let i = lineIndex - 1; i >= 0; i--) {
+                if (this.getPosInfo(i, cellIndex) == lastChessOwner) {
+                    count++;
+                    if (count == 4) this.WonTheGameBy(lastChessOwner);
+                }
+                else break;
+            }
+            for (let i = lineIndex + 1; i <= 4; i++) {
+                if (this.getPosInfo(i, cellIndex) == lastChessOwner) {
+                    count++;
+                    if (count == 4) this.WonTheGameBy(lastChessOwner);
+                }
+                else break;
+            }
+            for (let i = cellIndex - 1; i >= 0; i--) {
+                if (this.getPosInfo(lineIndex, i) == lastChessOwner) {
+                    count++;
+                    if (count == 4) this.WonTheGameBy(lastChessOwner);
+                }
+                else break;
+            }
+            for (let i = cellIndex + 1; i <= 4; i++) {
+                if (this.getPosInfo(lineIndex, i) == lastChessOwner) {
+                    count++;
+                    if (count == 4) this.WonTheGameBy(lastChessOwner);
+                }
+                else break;
+            }
+            for (let i = lineIndex + 1, j = cellIndex + 1; i <= 4; i++, j++) {
+                if (this.getPosInfo(i, j) == lastChessOwner) {
+                    count++;
+                    if (count == 4) this.WonTheGameBy(lastChessOwner);
+                }
+                else break;
+            }
+            for (let i = lineIndex - 1, j = cellIndex - 1; i >= 0; i--, j--) {
+                if (this.getPosInfo(i, j) == lastChessOwner) {
+                    count++;
+                    if (count == 4) this.WonTheGameBy(lastChessOwner);
+                }
+                else break;
+            }
+            for (let i = lineIndex - 1, j = cellIndex + 1; i >= 0; i--, j++) {
+                if (this.getPosInfo(i, j) == lastChessOwner) {
+                    count++;
+                    if (count == 4) this.WonTheGameBy(lastChessOwner);
+                }
+                else break;
+            }
+            for (let i = lineIndex + 1, j = cellIndex - 1; i <= 4; i++, j--) {
+                if (this.getPosInfo(i, j) == lastChessOwner) {
+                    count++;
+                    if (count == 4) this.WonTheGameBy(lastChessOwner);
+                }
+                else break;
+            }
+        },
+        WonTheGameBy(chessOwner) {
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+            document.getElementById("snackbar").innerText = "Player " + chessOwner + " Won The Game!";
         }
     }
 });
