@@ -17,3 +17,9 @@ td{
 .cellWithHint{
     border: 2px dashed red;
 }
+.turnHint{
+    font-size: 30px;
+}
+.playerTurnHint{
+    color: red;
+}

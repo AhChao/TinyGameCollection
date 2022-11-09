@@ -9,9 +9,7 @@
   </head>
   <body id="app">
     <h1>All Queen Chess</h1>
-    <span>Now is Player {{playerTurn}}'s turn</span><br />
-    <span>Player A <img src="./img/A.png" /></span>
-    <span>Player B <img src="./img/B.png" /></span>
+    <span class="turnHint">Now is Player <span class="playerTurnHint">{{playerTurn}}</span>'s turn</span><img :src="'./img/'+playerTurn+'.png'" class="chessImg" /><br />
     <table id="targetTable">
       <tbody>
         <tr v-for="(line,lineIndex) in chessboard">
