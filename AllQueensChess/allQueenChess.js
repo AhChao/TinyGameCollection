@@ -17,6 +17,10 @@ const app = Vue.createApp({
     },
     methods: {
         init() {
+            this.lastStepChessboard = [];
+            this.validCell = [];
+            this.isChoosing = false;
+            this.playerTurn = "A";
             this.drawField();
         },
         drawField() {
