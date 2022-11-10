@@ -119,6 +119,7 @@ const app = Vue.createApp({
                 }
                 else break;
             }
+            count = 1;
             for (let i = lineIndex + 1; i <= 4; i++) {
                 if (this.getPosInfo(i, cellIndex) == lastChessOwner) {
                     count++;
@@ -126,6 +127,7 @@ const app = Vue.createApp({
                 }
                 else break;
             }
+            count = 1;
             for (let i = cellIndex - 1; i >= 0; i--) {
                 if (this.getPosInfo(lineIndex, i) == lastChessOwner) {
                     count++;
@@ -133,6 +135,7 @@ const app = Vue.createApp({
                 }
                 else break;
             }
+            count = 1;
             for (let i = cellIndex + 1; i <= 4; i++) {
                 if (this.getPosInfo(lineIndex, i) == lastChessOwner) {
                     count++;
@@ -140,6 +143,7 @@ const app = Vue.createApp({
                 }
                 else break;
             }
+            count = 1;
             for (let i = lineIndex + 1, j = cellIndex + 1; i <= 4; i++, j++) {
                 if (this.getPosInfo(i, j) == lastChessOwner) {
                     count++;
@@ -147,6 +151,7 @@ const app = Vue.createApp({
                 }
                 else break;
             }
+            count = 1;
             for (let i = lineIndex - 1, j = cellIndex - 1; i >= 0; i--, j--) {
                 if (this.getPosInfo(i, j) == lastChessOwner) {
                     count++;
@@ -154,6 +159,7 @@ const app = Vue.createApp({
                 }
                 else break;
             }
+            count = 1;
             for (let i = lineIndex - 1, j = cellIndex + 1; i >= 0; i--, j++) {
                 if (this.getPosInfo(i, j) == lastChessOwner) {
                     count++;
@@ -161,6 +167,7 @@ const app = Vue.createApp({
                 }
                 else break;
             }
+            count = 1;
             for (let i = lineIndex + 1, j = cellIndex - 1; i <= 4; i++, j--) {
                 if (this.getPosInfo(i, j) == lastChessOwner) {
                     count++;
