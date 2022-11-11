@@ -18,6 +18,10 @@
     border: 5px red solid;
     border-radius: 5px;
 }
+.validCell{
+    border: 5px red dashed;
+    border-radius: 5px;
+}
 .bridgeBase{
     width: 700px;
 }

@@ -13,8 +13,12 @@
     <table id="targetTable">
       <tbody>
         <tr v-for="(line,lineIndex) in chessboard">
-          <td v-for="(cell,cellIndex) in line" :class="{chosen:lineIndex==chosen[0]&&cellIndex==chosen[1]&&isChoosing, cellWithHint:isValidStep(lineIndex,cellIndex),chosen:chosen[0]==lineIndex&&chosen[1]==cellIndex&&isChoosing}" @click="selectCell(lineIndex,cellIndex)">
-            <img :src="cell=='-'?'./img/space.png':'./img/BB.png'" :class="{chessImg:true, space:cell=='-', middleMargin:cellIndex!=0&&cellIndex!=5}" />
+          <td
+            v-for="(cell,cellIndex) in line"
+            :class="{chosen:lineIndex==chosen[0]&&cellIndex==chosen[1]&&isChoosing, cellWithHint:isValidStep(lineIndex,cellIndex),chosen:chosen[0]==lineIndex&&chosen[1]==cellIndex&&isChoosing,validCell:validCell[0]==lineIndex&&validCell[1]==cellIndex&&isChoosing}"
+            @click="selectCell(lineIndex,cellIndex)"
+          >
+            <img :src="cell=='-'?'./img/space.png':'./img/'+cell+'.png'" :class="{chessImg:true, space:cell=='-', middleMargin:cellIndex!=0&&cellIndex!=5}" />
           </td>
         </tr>
       </tbody>
