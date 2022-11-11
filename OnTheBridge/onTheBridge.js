@@ -27,6 +27,9 @@ const app = Vue.createApp({
             this.drawField();
         },
         drawField() {
+            for (let i = 0; i < 10; i++) {
+                this.chessboard[i] = ['-', '-', '-', '-', '-', '-'];
+            }
 
         },
         rollForSheeps() {
@@ -48,6 +51,12 @@ const app = Vue.createApp({
                     this.waitingPlaceB.push("BW");
                 }
             }
+        },
+        isValidStep() {
+
+        },
+        selectCell() {
+
         }
     }
 });
