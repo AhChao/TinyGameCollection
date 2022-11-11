@@ -74,6 +74,7 @@ const app = Vue.createApp({
             else {
                 if (selectedCell[0] == this.playerTurn) {
                     this.chosen = [lineIndex, cellIndex];
+                    this.updateValidCell();
                     return;
                 }
                 if (selectedCell[0] != '-') return;
@@ -84,9 +85,11 @@ const app = Vue.createApp({
                         if (this.chosen[0] == -2) this.waitingPlaceB.splice(this.chosen[1], 1);
                     }
                     else {//swtich all sheep above the moving one
-                        let dir = this.chosen[1]
-                        let topNonEmtpyLine = this.getTopNonEmptyIndexOfTheColumn(this.chosen[1]);
-
+                        let topLineI = this.getTopNonEmptyIndexOfTheColumn(this.chosen[0]);
+                        for (let lineI = this.chosen[0]; lineI >= topLineI; lineI--, lineIndex--) {
+                            [this.chessboard[lineI][this.chosen[1]], this.chessboard[lineIndex][cellIndex]] = [this.chessboard[lineIndex][cellIndex], this.chessboard[lineI][this.chosen[1]]];
+                        }
+                        //If send enemy's sheep to your home, trigger option to let the enemy do chossing
 
                     }
                     this.isChoosing = false;
