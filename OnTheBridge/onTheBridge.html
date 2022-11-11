@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>On The Bridge</title>
+    <link rel="stylesheet" href="./onTheBridge.css" />
+  </head>
+  <body id="app">
+    <h1>On The Bridge</h1>
+    <span class="turnHint">Now is Player <span class="playerTurnHint">{{playerTurn}}</span>'s turn</span><img :src="'./img/'+playerTurn+'W.png'" class="chessImg" /><br />
+    <table id="targetTable">
+      <tbody>
+        <tr v-for="(line,lineIndex) in chessboard">
+          <td v-for="(cell,cellIndex) in line" :class="{chosen:lineIndex==chosen[0]&&cellIndex==chosen[1]&&isChoosing, cellWithHint:isValidStep(lineIndex,cellIndex)}" @click="selectCell(lineIndex,cellIndex)">
+            <img class="chessImg" :src="'./img/'+(cell=='-'?'space':cell)+'.png'" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button @click="init()">Reset</button>
+    <button @click="revertLastStep()">Revert Last Step</button>
+    <h2>Rule</h2>
+    <div>
+      <ul>
+        <li>Make all sheeps cross over the bridge won the game.</li>
+        <li>Sheep can move one step, attach on different background color sheep, jump over same background color sheep.</li>
+        <li>Players take turn to move one of their sheeps</li>
+      </ul>
+    </div>
+    <div id="snackbar">Some text some message..</div>
+    <a href="../index.html">Back to main page</a>
+  </body>
+  <script src="../lib/vue.global.js"></script>
+  <script src="./onTheBridge.js"></script>
+</html>
