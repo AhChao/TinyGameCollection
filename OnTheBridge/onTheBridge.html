@@ -19,6 +19,9 @@
         </tr>
       </tbody>
     </table>
+    <h2>Waiting Place</h2>
+    <div id="waitingPlaceW"><img v-for="(w,wi) in waitingPlaceW" :src="'./img/'+w+'.png'" class="chessImg" /></div>
+    <div id="waitingPlaceB"><img v-for="(b,bi) in waitingPlaceB" :src="'./img/'+b+'.png'" class="chessImg" /></div>
     <button @click="init()">Reset</button>
     <button @click="revertLastStep()">Revert Last Step</button>
     <h2>Rule</h2>
