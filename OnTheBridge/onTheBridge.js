@@ -52,9 +52,6 @@ const app = Vue.createApp({
                 }
             }
         },
-        isValidStep() {
-
-        },
         getPosInfo(lineIndex, cellIndex) {
             if (lineIndex < 0) {
                 if (lineIndex == -1) return this.waitingPlaceW[cellIndex];
@@ -65,13 +62,14 @@ const app = Vue.createApp({
         selectCell(lineIndex, cellIndex) {
             let selectedCell = this.getPosInfo(lineIndex, cellIndex);
             if (this.isChoosing == false) {
-                if (lineIndex == 0 || lineIndex == 5) return;
+                if (cellIndex == 0 || cellIndex == 5) return;
                 if (selectedCell[0] != this.playerTurn) return;
                 this.isChoosing = true;
                 this.chosen = [lineIndex, cellIndex];
                 this.updateValidCell();
             }
             else {
+                if ((cellIndex == 0 || cellIndex == 5) && this.getPosInfo(lineIndex, cellIndex) != '-') return;
                 if (selectedCell[0] == this.playerTurn) {
                     this.chosen = [lineIndex, cellIndex];
                     this.updateValidCell();
