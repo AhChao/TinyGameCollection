@@ -90,19 +90,20 @@ const app = Vue.createApp({
 
                     }
                     this.isChoosing = false;
+                    this.playerTurn = this.playerTurn == 'W' ? 'B' : 'W';
                 }
 
             }
         },
         updateValidCell() {
-            if (this.chosen[0] == -1) {
-                let validCellIndex = this.getTheFirstDifferentBackgroundCellIndex(1, this.getPosInfo(this.chosen[0], this.chosen[1]), 1);
+            if (this.chosen[0] < 0) {
+                let validCellIndex = this.getTheFirstDifferentBackgroundCellIndex(this.chosen[0] == -1 ? 1 : 4, this.getPosInfo(this.chosen[0], this.chosen[1])[1], this.chosen[0] == -1 ? 1 : -1);
                 this.validCell = [this.getTopEmptyIndexOfTheColumn(validCellIndex), validCellIndex];
             }
         },
         getTheFirstDifferentBackgroundCellIndex(startIndex, backgroundColor, dir) {
             for (let i = startIndex; (dir == 1 ? i < 5 : i > 0); i += dir) {
-                if (this.getPosInfo(this.getTopNonEmptyIndexOfTheColumn(i), i) != backgroundColor) {
+                if (this.getPosInfo(this.getTopNonEmptyIndexOfTheColumn(i), i)[1] != backgroundColor) {
                     return i;
                 }
             }
