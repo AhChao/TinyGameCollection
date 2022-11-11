@@ -62,14 +62,14 @@ const app = Vue.createApp({
         selectCell(lineIndex, cellIndex) {
             let selectedCell = this.getPosInfo(lineIndex, cellIndex);
             if (this.isChoosing == false) {
-                if (cellIndex == 0 || cellIndex == 5) return;
+                if (lineIndex >= 0 && (cellIndex == 0 || cellIndex == 5)) return;
                 if (selectedCell[0] != this.playerTurn) return;
                 this.isChoosing = true;
                 this.chosen = [lineIndex, cellIndex];
                 this.updateValidCell();
             }
             else {
-                if ((cellIndex == 0 || cellIndex == 5) && this.getPosInfo(lineIndex, cellIndex) != '-') return;
+                if ((cellIndex == 0 || cellIndex == 5) && this.getPosInfo(lineIndex, cellIndex) != '-' && lineIndex >= 0) return;
                 if (selectedCell[0] == this.playerTurn) {
                     this.chosen = [lineIndex, cellIndex];
                     this.updateValidCell();
@@ -83,7 +83,7 @@ const app = Vue.createApp({
                         if (this.chosen[0] == -2) this.waitingPlaceB.splice(this.chosen[1], 1);
                     }
                     else {//swtich all sheep above the moving one
-                        let topLineI = this.getTopNonEmptyIndexOfTheColumn(this.chosen[0]);
+                        let topLineI = this.getTopNonEmptyIndexOfTheColumn(this.chosen[1]);
                         for (let lineI = this.chosen[0]; lineI >= topLineI; lineI--, lineIndex--) {
                             [this.chessboard[lineI][this.chosen[1]], this.chessboard[lineIndex][cellIndex]] = [this.chessboard[lineIndex][cellIndex], this.chessboard[lineI][this.chosen[1]]];
                         }
