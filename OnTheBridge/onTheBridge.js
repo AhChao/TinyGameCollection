@@ -23,7 +23,7 @@ const app = Vue.createApp({
             this.lastStepChessboard = [];
             this.validCell = [];
             this.isChoosing = false;
-            this.playerTurn = "b";
+            this.playerTurn = "W";
             this.drawField();
         },
         drawField() {
@@ -55,7 +55,19 @@ const app = Vue.createApp({
         isValidStep() {
 
         },
-        selectCell() {
+        getPosInfo(lineIndex, cellIndex) {
+            return this.chessboard[lineIndex, cellIndex];
+        },
+        selectCell(lineIndex, cellIndex) {
+            let selectedCell = "";
+            if (lineIndex < 0) {
+                if (lineIndex == -1) selectedCell = this.waitingPlaceW[cellIndex];
+                if (lineIndex == -2) selectedCell = this.waitingPlaceB[cellIndex];
+            }
+            else selectedCell = this.getPosInfo(lineIndex, cellIndex);
+            if (selectedCell[0] != this.playerTurn) return;
+            this.isChoosing = true;
+            this.chosen = [lineIndex, cellIndex];
 
         }
     }

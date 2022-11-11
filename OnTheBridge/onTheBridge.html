@@ -13,7 +13,7 @@
     <table id="targetTable">
       <tbody>
         <tr v-for="(line,lineIndex) in chessboard">
-          <td v-for="(cell,cellIndex) in line" :class="{chosen:lineIndex==chosen[0]&&cellIndex==chosen[1]&&isChoosing, cellWithHint:isValidStep(lineIndex,cellIndex)}" @click="selectCell(lineIndex,cellIndex)">
+          <td v-for="(cell,cellIndex) in line" :class="{chosen:lineIndex==chosen[0]&&cellIndex==chosen[1]&&isChoosing, cellWithHint:isValidStep(lineIndex,cellIndex),chosen:chosen[0]==lineIndex&&chosen[1]==cellIndex&&isChoosing}" @click="selectCell(lineIndex,cellIndex)">
             <img :src="cell=='-'?'./img/space.png':'./img/BB.png'" :class="{chessImg:true, space:cell=='-', middleMargin:cellIndex!=0&&cellIndex!=5}" />
           </td>
         </tr>
@@ -23,8 +23,8 @@
       <img src="./img/Bridge.png" class="bridgeBase" />
     </div>
     <h2>Waiting Place</h2>
-    <div id="waitingPlaceW"><img v-for="(w,wi) in waitingPlaceW" :src="'./img/'+w+'.png'" class="chessImg" /></div>
-    <div id="waitingPlaceB"><img v-for="(b,bi) in waitingPlaceB" :src="'./img/'+b+'.png'" class="chessImg" /></div>
+    <div id="waitingPlaceW"><img v-for="(w,wi) in waitingPlaceW" :src="'./img/'+w+'.png'" :class="{chessImg:true,chosen:chosen[0]==-1&&chosen[1]==wi&&isChoosing}" @click="selectCell(-1,wi)" /></div>
+    <div id="waitingPlaceB"><img v-for="(b,bi) in waitingPlaceB" :src="'./img/'+b+'.png'" :class="{chessImg:true,chosen:chosen[0]==-2&&chosen[1]==bi&&isChoosing}" @click="selectCell(-2,bi)" /></div>
     <button @click="init()">Reset</button>
     <button @click="revertLastStep()">Revert Last Step</button>
     <h2>Rule</h2>
