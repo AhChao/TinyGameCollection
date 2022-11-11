@@ -47,7 +47,6 @@ const app = Vue.createApp({
                 else {
                     this.waitingPlaceB.push("BW");
                 }
-                console.log(this.waitingPlaceB);
             }
         }
     }
