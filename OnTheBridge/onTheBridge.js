@@ -92,6 +92,7 @@ const app = Vue.createApp({
                     }
                     this.isChoosing = false;
                     this.playerTurn = this.playerTurn == 'W' ? 'B' : 'W';
+                    this.wonDetection();
                 }
 
             }
@@ -144,6 +145,18 @@ const app = Vue.createApp({
                 if (this.playerTurn == 'W') this.waitingPlaceB.push(chessName);
                 else this.waitingPlaceW.push(chessName);
             }
+        },
+        wonDetection() {
+            let leftWhiteSheep = this.waitingPlaceW.length;
+            let leftBlackSheep = this.waitingPlaceB.length;
+            for (let i = 0; i < this.chessboard.length; i++) {
+                for (let j = 1; j < this.chessboard[i].length - 1; j++) {
+                    if (this.chessboard[i][j][0] == 'W') leftWhiteSheep++;
+                    if (this.chessboard[i][j][0] == 'B') leftBlackSheep++;
+                }
+            }
+            if (leftWhiteSheep == 0) alert("White Sheep Won The Game!");
+            if (leftBlackSheep == 0) alert("Black Sheep Won The Game!");
         }
     }
 });
