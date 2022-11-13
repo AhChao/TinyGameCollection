@@ -1,0 +1,26 @@
+#targetTable{
+    border: 2px solid black;
+    width: 50%;
+}
+td{
+    border: 2px solid black;
+    width: 50px;
+    overflow: hidden;
+}
+.chosen{
+    border: 2px solid red;
+    border-radius: 3px;
+}
+.chessImg{
+    width: 80px;
+}
+.cellWithHint{
+    border: 2px dashed red;
+}
+.turnHint{
+    font-size: 30px;
+}
+.playerTurnHint{
+    color: red;
+}
+
