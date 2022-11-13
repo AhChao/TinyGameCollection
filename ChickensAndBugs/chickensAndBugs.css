@@ -33,3 +33,6 @@ td{
 .scoreText{
     font-size: 50px;
 }
+.hidden{
+    display: none;
+}

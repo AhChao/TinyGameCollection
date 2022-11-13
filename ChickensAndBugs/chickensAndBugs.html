@@ -11,18 +11,22 @@
   <body id="app">
     <h1>Chicken And Bugs</h1>
     <span class="turnHint">Now is <span class="playerTurnHint"> Player {{playerTurn}}</span>'s turn</span><img :src="'./img/C'+playerTurn+'.png'" class="chessImg" /><br />
+    <h2 :class="{hidden:!placePhase,}">Placing Phase</h2>
     <div>
       <svg width="700" height="550" id="paintPlace">
         <g v-for="(line,lineIndex) in boardArray">
           <g v-for="(cell,cellIndex) in line">
-            <image :href="'./img/Grass'+cell+'.png'" width="80" height="80" :x="cellIndex*80+(lineIndex%2==0?40:0)" :y="lineIndex*61" />
+            <image :href="'./img/Grass'+cell+'.png'" width="80" height="80" :x="getCoodX(lineIndex,cellIndex)" :y="getCoodY(lineIndex)" @click="selectCell(lineIndex,cellIndex)" />
           </g>
+        </g>
+        <g v-for="(chickenList,playerIndex) in chickenPlace">
+          <image v-for="(chicken,chickenIndex) in chickenList" :href="'./img/C'+playerIndex+'.png'" :id="'C'+playerIndex+'_'+chickenIndex+'.png'" width="80" height="80" :x="chicken[0]==-1?-100:getCoodX(chicken[0],chicken[1])" :y="getCoodY(chicken[0])" />
         </g>
       </svg>
     </div>
     <div id="scoreBar">
       <div v-for="(score,scoreIndex) in playerScore">
-        <image :src="'./img/C'+(scoreIndex+1)+'.png'" class="scoreIcon"></image>
+        <image :src="'./img/C'+scoreIndex+'.png'" class="scoreIcon"></image>
         <span class="scoreText">{{score}}</span>
         <image src="./img/Earthworm.png" class="scoreIconl" />
       </div>
