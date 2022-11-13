@@ -12,7 +12,13 @@
     <h1>Chicken And Bugs</h1>
     <span class="turnHint">Now is Player <span class="playerTurnHint">{{playerTurn}}</span>'s turn</span><img :src="'./img/C'+playerTurn+'.png'" class="chessImg" /><br />
     <div>
-      <svg width="1000" height="1000" id="paintPlace"></svg>
+      <svg width="700" height="550" id="paintPlace">
+        <g v-for="(line,lineIndex) in boardArray">
+          <g v-for="(cell,cellIndex) in line">
+            <image :href="'./img/Grass'+cell+'.png'" width="80" height="80" :x="cellIndex*80+(lineIndex%2==0?40:0)" :y="lineIndex*61" />
+          </g>
+        </g>
+      </svg>
     </div>
     <button @click="init()">Reset</button>
     <button @click="revertLastStep()">Revert Last Step</button>
