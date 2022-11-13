@@ -2,9 +2,10 @@ const app = Vue.createApp({
     created() { },
     data() {
         return {
-            playerTurn: "B",
+            playerTurn: "1",
             boardArray: [],
             playerCount: 2, // 2-4, 3-3, 4-2
+            playerScore: [0, 0],
         };
     },
     mounted() {
@@ -16,6 +17,9 @@ const app = Vue.createApp({
         init() {
             this.boardArray = [];//7-8-7, worm 1*30, 2*20, 3*10
             this.drawField();
+            this.playerCount = 2;//TODO:fix as 2 for now, max should support 4
+            this.playerScore = [0, 0];
+
         },
         drawField() {
             let wormOrder = [];

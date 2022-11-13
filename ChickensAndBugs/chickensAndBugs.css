@@ -23,4 +23,13 @@ td{
 .playerTurnHint{
     color: red;
 }
-
+.scoreIcon{
+    width: 80px;
+    object-position: 0px 8px;
+}
+.scoreIconl{
+    width: 40px;
+}
+.scoreText{
+    font-size: 50px;
+}

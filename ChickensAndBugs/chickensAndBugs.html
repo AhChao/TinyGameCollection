@@ -10,7 +10,7 @@
   </head>
   <body id="app">
     <h1>Chicken And Bugs</h1>
-    <span class="turnHint">Now is Player <span class="playerTurnHint">{{playerTurn}}</span>'s turn</span><img :src="'./img/C'+playerTurn+'.png'" class="chessImg" /><br />
+    <span class="turnHint">Now is <span class="playerTurnHint"> Player {{playerTurn}}</span>'s turn</span><img :src="'./img/C'+playerTurn+'.png'" class="chessImg" /><br />
     <div>
       <svg width="700" height="550" id="paintPlace">
         <g v-for="(line,lineIndex) in boardArray">
@@ -19,6 +19,13 @@
           </g>
         </g>
       </svg>
+    </div>
+    <div id="scoreBar">
+      <div v-for="(score,scoreIndex) in playerScore">
+        <image :src="'./img/C'+(scoreIndex+1)+'.png'" class="scoreIcon"></image>
+        <span class="scoreText">{{score}}</span>
+        <image src="./img/Earthworm.png" class="scoreIconl" />
+      </div>
     </div>
     <button @click="init()">Reset</button>
     <button @click="revertLastStep()">Revert Last Step</button>
