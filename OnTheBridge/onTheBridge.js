@@ -155,8 +155,14 @@ const app = Vue.createApp({
                     if (this.chessboard[i][j][0] == 'B') leftBlackSheep++;
                 }
             }
-            if (leftWhiteSheep == 0) alert("White Sheep Won The Game!");
-            if (leftBlackSheep == 0) alert("Black Sheep Won The Game!");
+            if (leftWhiteSheep == 0) this.displayMessageWithSnackBar("White Sheep Won The Game!");
+            if (leftBlackSheep == 0) this.displayMessageWithSnackBar("Black Sheep Won The Game!");
+        },
+        displayMessageWithSnackBar(message) {
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+            document.getElementById("snackbar").innerText = message;
         }
     }
 });
