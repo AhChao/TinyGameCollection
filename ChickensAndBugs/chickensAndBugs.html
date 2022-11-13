@@ -5,35 +5,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chicken And Bugs</title>
-    <link rel="stylesheet" href="./allQueenChess.css" />
+    <link rel="stylesheet" href="./chickensAndBugs.css" />
     <link rel="stylesheet" href="../SharedComponets/sharedComponets.css" />
   </head>
   <body id="app">
     <h1>Chicken And Bugs</h1>
-    <span class="turnHint">Now is Player <span class="playerTurnHint">{{playerTurn}}</span>'s turn</span><img :src="'./img/'+playerTurn+'.png'" class="chessImg" /><br />
-    <table id="targetTable">
-      <tbody>
-        <tr v-for="(line,lineIndex) in chessboard">
-          <td v-for="(cell,cellIndex) in line" :class="{chosen:lineIndex==chosen[0]&&cellIndex==chosen[1]&&isChoosing, cellWithHint:isValidStep(lineIndex,cellIndex)}" @click="selectCell(lineIndex,cellIndex)">
-            <img class="chessImg" :src="'./img/'+(cell=='-'?'space':cell)+'.png'" />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <span class="turnHint">Now is Player <span class="playerTurnHint">{{playerTurn}}</span>'s turn</span><img :src="'./img/C'+playerTurn+'.png'" class="chessImg" /><br />
+    <div>
+      <svg width="1000" height="1000" id="paintPlace"></svg>
+    </div>
     <button @click="init()">Reset</button>
     <button @click="revertLastStep()">Revert Last Step</button>
     <h2>Rule</h2>
     <div>
       <ul>
-        <li>All chesses move like queen.</li>
-        <li>The chess cannot cross another chess</li>
-        <li>Players take turn to move one of their chesses</li>
-        <li>First player make 4 of his/her chesses in-a-line won the game.</li>
+        <li>Do two actions in order : move your chicken, pick up the board</li>
+        <li>At the begining, player take turn to put chicken onto a board with one earthworm</li>
+        <li>Chicken can move as far as it wants in the line if no hole and chicken there, after board picked up, replaced with hole.</li>
+        <li>Game will end when all chickens cannot move</li>
+        <li>The player with most earthworm will be the winner</li>
       </ul>
     </div>
     <div id="snackbar">Some text some message..</div>
     <a href="../index.html">Back to main page</a>
   </body>
   <script src="../lib/vue.global.js"></script>
-  <script src="./allQueenChess.js"></script>
+  <script src="./chickensAndBugs.js"></script>
 </html>
