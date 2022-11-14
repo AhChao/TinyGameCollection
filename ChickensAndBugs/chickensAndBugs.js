@@ -4,6 +4,7 @@ const app = Vue.createApp({
         return {
             playerTurn: "0",
             boardArray: [],
+            boardWithChickenOnly: [],
             playerCount: 2, // 2-4, 3-3, 4-2
             placedChicken: 0,
             shouldPlacedChicken: 8,
@@ -20,6 +21,7 @@ const app = Vue.createApp({
     methods: {
         init() {
             this.boardArray = [];//7-8-7, worm 1*30, 2*20, 3*10
+            this.boardWithChickenOnly = [];
             this.drawField();
             this.playerCount = 2;//TODO:fix as 2 for now, max should support 4
             this.placedChicken = 0;
@@ -41,6 +43,7 @@ const app = Vue.createApp({
                 this.boardArray.push([]);
                 for (let j = 0; (i % 2 == 1 ? j < 8 : j < 7); j++) {
                     this.boardArray[i].push(wormOrder.pop());
+                    this.boardWithChickenOnly.push('-');
                 }
             }
         },
@@ -52,13 +55,13 @@ const app = Vue.createApp({
                     if (this.chickenPlace[this.playerTurn][i][0] == -1) {
                         this.chickenPlace[this.playerTurn][i][0] = lineIndex;
                         this.chickenPlace[this.playerTurn][i][1] = cellIndex;
+                        this.boardWithChickenOnly[lineIndex][cellIndex] = this.playerTurn + '_' + i;
                         this.placedChicken++;
                         if (this.placedChicken == this.shouldPlacedChicken) this.placePhase = false;
                         this.nextPlayer();
                         break;
                     }
                 }
-
             }
             else {
 
