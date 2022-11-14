@@ -63,8 +63,8 @@ const app = Vue.createApp({
                         this.chickenPlace[this.playerTurn][i][1] = cellIndex;
                         this.boardWithChickenOnly[lineIndex][cellIndex] = this.playerTurn + '_' + i;
                         this.placedChicken++;
-                        if (this.placedChicken == this.shouldPlacedChicken) this.placePhase = false;
                         this.nextPlayer();
+                        if (this.placedChicken == this.shouldPlacedChicken) this.placePhase = false;
                         break;
                     }
                 }
@@ -74,21 +74,31 @@ const app = Vue.createApp({
                 if (this.isChoosing) {
                     if (cellInfo[0] == this.playerTurn) {
                         this.chosen = [lineIndex, cellIndex];
-                        this.updateValidCell();
+                        this.updateValidCell(lineIndex, cellIndex);
                         return;
                     }
-                    //TODO:Validation
+                    if (!this.isValidCell(lineIndex, cellIndex)) return;
+                    let cellInfoOfChosen = this.boardWithChickenOnly[this.chosen[0]][this.chosen[1]];
+                    this.playerScore[this.playerTurn] += this.boardArray[this.chosen[0]][this.chosen[1]];
+                    this.boardArray[this.chosen[0]][this.chosen[1]] = -1;
+                    this.boardWithChickenOnly[this.chosen[0]][this.chosen[1]] = '-';
+                    this.boardWithChickenOnly[lineIndex][cellIndex] = cellInfoOfChosen;
+                    let chickenInfo = cellInfoOfChosen.split("_");
+                    this.chickenPlace[chickenInfo[0]][chickenInfo[1]] = [lineIndex, cellIndex];
                     this.isChoosing = false;
+                    this.validCell = [];
+                    this.validCellImage = [];
+                    this.nextPlayer();
+
                 }
                 else {
                     if (this.playerTurn != cellInfo[0]) {
                         return;
                     }
                     this.chosen = [lineIndex, cellIndex];
-                    this.updateValidCell();
+                    this.updateValidCell(lineIndex, cellIndex);
                     this.isChoosing = true;
                 }
-
             }
         },
         getCoodX(lineIndex, cellIndex) {
@@ -104,39 +114,38 @@ const app = Vue.createApp({
             this.playerTurn = this.playerTurn * 1 + 1;
             if (this.playerTurn == this.playerCount) this.playerTurn = 0;
         },
-        updateValidCell() {
+        updateValidCell(lineIndex, cellIndex) {
             this.validCell = [];
             this.validCellImage = [];
-            for (let i = this.chosen[1] - 1; i >= 0; i--)//to left
+            for (let i = cellIndex - 1; i >= 0; i--)//to left
             {
-                if (this.checkPosAbleToStand(this.chosen[0], i)) this.validCell.push([this.chosen[0], i]);
+                if (this.checkPosAbleToStand(lineIndex, i)) this.validCell.push([lineIndex, i]);
                 else break;
             }
-            for (let i = this.chosen[1] + 1; (this.chosen[0] % 2 == 0 ? i < 8 : i < 7); i++)//to right
+            for (let i = cellIndex + 1; (lineIndex % 2 == 1 ? i < 8 : i < 7); i++)//to right
             {
-                if (this.checkPosAbleToStand(this.chosen[0], i)) this.validCell.push([this.chosen[0], i]);
+                if (this.checkPosAbleToStand(lineIndex, i)) this.validCell.push([lineIndex, i]);
                 else break;
             }
-            for (let i = this.chosen[0] - 1, j = this.chosen[1] - ((i - 1) % 2 == 1 ? 1 : 0); i >= 0;) {//to left upper
-                console.log(i, j, this.checkPosAbleToStand(i, j));
+            for (let i = lineIndex - 1, j = cellIndex - (Math.abs(i - 1) % 2 == 1 ? 1 : 0); i >= 0;) {//to left upper
                 if (this.checkPosAbleToStand(i, j)) this.validCell.push([i, j]);
                 else break;
                 i--;
                 if (i % 2 == 0) j--;
             }
-            for (let i = this.chosen[0] - 1, j = this.chosen[1] + ((i - 1) % 2 == 0 ? 1 : 0); i >= 0;) {//to right upper
+            for (let i = lineIndex - 1, j = cellIndex + ((i - 1) % 2 == 0 ? 1 : 0); i >= 0;) {//to right upper
                 if (this.checkPosAbleToStand(i, j)) this.validCell.push([i, j]);
                 else break;
                 i--;
                 if (i % 2 == 1) j++;
             }
-            for (let i = this.chosen[0] + 1, j = this.chosen[1] - ((i - 1) % 2 == 1 ? 1 : 0); i < 8;) {//to left bottom
+            for (let i = lineIndex + 1, j = cellIndex - ((i - 1) % 2 == 1 ? 1 : 0); i < 8;) {//to left bottom
                 if (this.checkPosAbleToStand(i, j)) this.validCell.push([i, j]);
                 else break;
                 i++;
                 if (i % 2 == 0) j--;
             }
-            for (let i = this.chosen[0] + 1, j = this.chosen[1] + ((i - 1) % 2 == 0 ? 1 : 0); i < 8;) {//to right bottom
+            for (let i = lineIndex + 1, j = cellIndex + ((i - 1) % 2 == 0 ? 1 : 0); i < 8;) {//to right bottom
                 if (this.checkPosAbleToStand(i, j)) this.validCell.push([i, j]);
                 else break;
                 i++;
@@ -144,17 +153,18 @@ const app = Vue.createApp({
             }
 
             let len = this.validCell.length;
-            if (len == 0) return;
+            if (len == 0) return 0;
             for (let i = 0; i < 21; i++) {
                 this.validCellImage.push(this.validCell[i % len]);
             }
-        }
+            return len;
+        },
+        isValidCell(lineIndex, cellIndex) {
+            for (let i = 0; i < this.validCell.length; i++) {
+                if (lineIndex == this.validCell[i][0] && cellIndex == this.validCell[i][1]) return true;
+            }
+            return false;
+        },
     },
-    isValidCell(lineIndex, cellIndex) {
-        for (let i = 0; i < this.validCell.length; i++) {
-            if (lineIndex == this.validCell[i][0] && cellIndex == this.validCell[i][1]) return true;
-        }
-        return false;
-    }
 });
 app.mount('#app');
