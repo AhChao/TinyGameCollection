@@ -11,6 +11,8 @@ const app = Vue.createApp({
             playerScore: [0, 0],
             placePhase: true,
             chickenPlace: [],
+            isChoosing: false,
+            chosen: []
         };
     },
     mounted() {
@@ -41,9 +43,10 @@ const app = Vue.createApp({
             }
             for (let i = 0; i < 8; i++) {
                 this.boardArray.push([]);
+                this.boardWithChickenOnly.push([]);
                 for (let j = 0; (i % 2 == 1 ? j < 8 : j < 7); j++) {
                     this.boardArray[i].push(wormOrder.pop());
-                    this.boardWithChickenOnly.push('-');
+                    this.boardWithChickenOnly[i].push('-');
                 }
             }
         },
@@ -64,6 +67,22 @@ const app = Vue.createApp({
                 }
             }
             else {
+                let cellInfo = this.boardWithChickenOnly[lineIndex][cellIndex];
+                if (this.isChoosing) {
+                    if (cellInfo[0] == this.playerTurn) {
+                        this.chosen = [lineIndex, cellIndex];
+                        return;
+                    }
+                    //TODO:Validation
+                    this.isChoosing = false;
+                }
+                else {
+                    if (this.playerTurn != cellInfo[0]) {
+                        return;
+                    }
+                    this.chosen = [lineIndex, cellIndex];
+                    this.isChoosing = true;
+                }
 
             }
         },
@@ -74,13 +93,7 @@ const app = Vue.createApp({
             return lineIndex * 61;
         },
         checkPosAbleToStand(lineIndex, cellIndex) {
-            for (let i = 0; i < this.chickenPlace; i++) {
-                for (let j = 0; j < this.chickenPlace[i]; j++) {
-                    let place = this.chickenPlace[i][j];
-                    if (place[0] == lineIndex && place[1] == cellIndex) return false;
-                }
-            }
-            return true;
+            return this.boardWithChickenOnly[lineIndex][cellIndex] == '-';
         },
         nextPlayer() {
             this.playerTurn = this.playerTurn * 1 + 1;

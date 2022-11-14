@@ -7,10 +7,6 @@ td{
     width: 50px;
     overflow: hidden;
 }
-.chosen{
-    border: 2px solid red;
-    border-radius: 3px;
-}
 .chessImg{
     width: 80px;
 }
