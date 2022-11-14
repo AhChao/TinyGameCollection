@@ -111,8 +111,19 @@ const app = Vue.createApp({
             return this.boardWithChickenOnly[lineIndex][cellIndex] == '-' && this.boardArray[lineIndex][cellIndex] != -1;
         },
         nextPlayer() {
+            let playerNotAbleToMove = 0;
             this.playerTurn = this.playerTurn * 1 + 1;
             if (this.playerTurn == this.playerCount) this.playerTurn = 0;
+
+            while (!this.placePhase && this.checkIsNoPlaceToMove(this.playerTurn)) {
+                this.playerTurn = this.playerTurn * 1 + 1;
+                if (this.playerTurn == this.playerCount) this.playerTurn = 0;
+                playerNotAbleToMove++;
+                if (playerNotAbleToMove == this.playerCount) {
+                    this.gameEnd();
+                    break;
+                }
+            }
         },
         updateValidCell(lineIndex, cellIndex) {
             this.validCell = [];
@@ -165,6 +176,29 @@ const app = Vue.createApp({
             }
             return false;
         },
+        checkIsNoPlaceToMove(player) {
+            for (let i = 0; i < this.chickenPlace[player].length; i++) {
+                if (this.updateValidCell(this.chickenPlace[player][i][0], this.chickenPlace[player][i][1]) != 0) {
+                    this.validCell = [];
+                    this.validCellImage = [];
+                    return false;
+                }
+            }
+            this.validCell = [];
+            this.validCellImage = [];
+            return true;
+        },
+        gameEnd() {
+            let winner = 0;
+            let max = this.playerScore[0];
+            for (let i = 1; i < this.playerCount; i++) {
+                if (this.playerScore[i] > max) {
+                    winner = i;
+                    max = this.playerScore[i];
+                }
+            }
+            alert("Player " + winner + " Won The Game With " + max + " Worms!");
+        }
     },
 });
 app.mount('#app');
