@@ -12,7 +12,9 @@ const app = Vue.createApp({
             placePhase: true,
             chickenPlace: [],
             isChoosing: false,
-            chosen: []
+            chosen: [],
+            validCell: [],
+            validCellImage: [],//max21
         };
     },
     mounted() {
@@ -31,6 +33,7 @@ const app = Vue.createApp({
             this.chickenPlace = [[[-1, -1], [-1, -1], [-1, -1], [-1, -1]], [[-1, -1], [-1, -1], [-1, -1], [-1, -1]]];
             this.playerScore = [0, 0];
             this.placePhase = true;
+            this.validCell = [];
         },
         drawField() {
             let wormOrder = [];
@@ -71,6 +74,7 @@ const app = Vue.createApp({
                 if (this.isChoosing) {
                     if (cellInfo[0] == this.playerTurn) {
                         this.chosen = [lineIndex, cellIndex];
+                        this.updateValidCell();
                         return;
                     }
                     //TODO:Validation
@@ -81,6 +85,7 @@ const app = Vue.createApp({
                         return;
                     }
                     this.chosen = [lineIndex, cellIndex];
+                    this.updateValidCell();
                     this.isChoosing = true;
                 }
 
@@ -93,12 +98,63 @@ const app = Vue.createApp({
             return lineIndex * 61;
         },
         checkPosAbleToStand(lineIndex, cellIndex) {
-            return this.boardWithChickenOnly[lineIndex][cellIndex] == '-';
+            return this.boardWithChickenOnly[lineIndex][cellIndex] == '-' && this.boardArray[lineIndex][cellIndex] != -1;
         },
         nextPlayer() {
             this.playerTurn = this.playerTurn * 1 + 1;
             if (this.playerTurn == this.playerCount) this.playerTurn = 0;
+        },
+        updateValidCell() {
+            this.validCell = [];
+            this.validCellImage = [];
+            for (let i = this.chosen[1] - 1; i >= 0; i--)//to left
+            {
+                if (this.checkPosAbleToStand(this.chosen[0], i)) this.validCell.push([this.chosen[0], i]);
+                else break;
+            }
+            for (let i = this.chosen[1] + 1; (this.chosen[0] % 2 == 0 ? i < 8 : i < 7); i++)//to right
+            {
+                if (this.checkPosAbleToStand(this.chosen[0], i)) this.validCell.push([this.chosen[0], i]);
+                else break;
+            }
+            for (let i = this.chosen[0] - 1, j = this.chosen[1] - ((i - 1) % 2 == 1 ? 1 : 0); i >= 0;) {//to left upper
+                console.log(i, j, this.checkPosAbleToStand(i, j));
+                if (this.checkPosAbleToStand(i, j)) this.validCell.push([i, j]);
+                else break;
+                i--;
+                if (i % 2 == 0) j--;
+            }
+            for (let i = this.chosen[0] - 1, j = this.chosen[1] + ((i - 1) % 2 == 0 ? 1 : 0); i >= 0;) {//to right upper
+                if (this.checkPosAbleToStand(i, j)) this.validCell.push([i, j]);
+                else break;
+                i--;
+                if (i % 2 == 1) j++;
+            }
+            for (let i = this.chosen[0] + 1, j = this.chosen[1] - ((i - 1) % 2 == 1 ? 1 : 0); i < 8;) {//to left bottom
+                if (this.checkPosAbleToStand(i, j)) this.validCell.push([i, j]);
+                else break;
+                i++;
+                if (i % 2 == 0) j--;
+            }
+            for (let i = this.chosen[0] + 1, j = this.chosen[1] + ((i - 1) % 2 == 0 ? 1 : 0); i < 8;) {//to right bottom
+                if (this.checkPosAbleToStand(i, j)) this.validCell.push([i, j]);
+                else break;
+                i++;
+                if (i % 2 == 1) j++;
+            }
+
+            let len = this.validCell.length;
+            if (len == 0) return;
+            for (let i = 0; i < 21; i++) {
+                this.validCellImage.push(this.validCell[i % len]);
+            }
         }
+    },
+    isValidCell(lineIndex, cellIndex) {
+        for (let i = 0; i < this.validCell.length; i++) {
+            if (lineIndex == this.validCell[i][0] && cellIndex == this.validCell[i][1]) return true;
+        }
+        return false;
     }
 });
 app.mount('#app');

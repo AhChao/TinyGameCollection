@@ -23,6 +23,7 @@
           <image v-for="(chicken,chickenIndex) in chickenList" :href="'./img/C'+playerIndex+'.png'" :id="'C'+playerIndex+'_'+chickenIndex+'.png'" width="80" height="80" :x="chicken[0]==-1?-100:getCoodX(chicken[0],chicken[1])" :y="getCoodY(chicken[0])" @click="selectCell(chicken[0],chicken[1])" />
         </g>
         <image href="./img/Chosen.png" height="80" width="80" :x="isChoosing?getCoodX(chosen[0],chosen[1]):-100" :y="isChoosing?getCoodY(chosen[0]):-100" />
+        <image v-for="(img,imageId) in validCellImage" href="./img/Possible.png" width="80" height="80" :x="getCoodX(img[0],img[1])" :y="getCoodY(img[0])" />
       </svg>
     </div>
     <div id="scoreBar">
