@@ -27,13 +27,14 @@
       </svg>
     </div>
     <div id="scoreBar">
-      <div v-for="(score,scoreIndex) in playerScore">
+      <div v-for="(score,scoreIndex) in playerScore" class="inlineBlock">
         <image :src="'./img/C'+scoreIndex+'.png'" class="scoreIcon"></image>
         <span class="scoreText">{{score}}</span>
         <image src="./img/Earthworm.png" class="scoreIconl" />
       </div>
     </div>
     <button @click="init()">Reset</button>
+    <button @click="initWithMoreThanTwoPlayer()">Reset 2+</button>
     <button @click="revertLastStep()">Revert Last Step</button>
     <h2>Rule</h2>
     <div>

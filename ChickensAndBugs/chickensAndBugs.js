@@ -198,6 +198,24 @@ const app = Vue.createApp({
                 }
             }
             alert("Player " + winner + " Won The Game With " + max + " Worms!");
+        },
+        initWithMoreThanTwoPlayer() {
+            this.init();
+            let inputPlayerCount = prompt("Please enter preferred players in the game(2 - 4):", "2");
+            if (inputPlayerCount == null || inputPlayerCount < 2 || inputPlayerCount > 4) {
+                inputPlayerCount = 2;
+            }
+            this.playerCount = inputPlayerCount;
+            this.shouldPlacedChicken = (6 - this.playerCount) * this.playerCount;
+            this.chickenPlace = [];
+            this.playerScore = [];
+            for (let i = 0; i < this.playerCount; i++) {
+                this.chickenPlace.push([]);
+                this.playerScore.push(0);
+                for (let j = 0; j < (6 - this.playerCount); j++) {
+                    this.chickenPlace[i].push([-1, -1]);
+                }
+            }
         }
     },
 });

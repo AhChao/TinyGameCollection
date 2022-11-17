@@ -32,3 +32,6 @@ td{
 .hidden{
     display: none;
 }
+.inlineBlock{
+    display: inline-block;
+}
