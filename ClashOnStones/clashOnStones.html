@@ -37,7 +37,14 @@
         <td></td>
       </tr>
     </table>
-    <br />
+    <div style="margin-top: 10px">
+      <span v-for="n in chessCount[0]"
+        ><td><img id="operationTarget" class="operationImg" :src="'./img/A_Dir.png'" @click="choosingWaitZone('A')" /></td
+      ></span>
+      <span v-for="n in chessCount[1]"
+        ><td><img id="operationTarget" class="operationImg" :src="'./img/B_Dir.png'" @click="choosingWaitZone('B')" /></td
+      ></span>
+    </div>
     <button @click="init()">Reset</button>
     <button @click="revertLastStep()">Revert Last Step</button>
     <h2>Rule</h2>

@@ -9,6 +9,7 @@ const app = Vue.createApp({
             isChoosing: false,
             playerTurn: "A",
             turnCount: 1,
+            chessCount: [5, 5],
         };
     },
     mounted() {
@@ -23,7 +24,8 @@ const app = Vue.createApp({
             this.isChoosing = false;
             this.turnCount = 1;
             this.playerTurn = "A";
-            this.drawField();
+            this.chessCount = [5, 5],
+                this.drawField();
         },
         drawField() {
             for (let i = 0; i < 5; i++) {
