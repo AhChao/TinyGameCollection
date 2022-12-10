@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clash On Stones</title>
+    <link rel="stylesheet" href="./clashOnStones.css" />
+    <link rel="stylesheet" href="../SharedComponents/sharedComponents.css" />
+  </head>
+  <body id="app">
+    <h1>Clash On Stones</h1>
+    <span class="turnHint">Now is <span class="playerTurnHint"> Player {{playerTurn}}</span>'s turn</span><img :src="'./img/'+playerTurn+'_Clear.png'" class="turnImg" /><br />
+    <table id="targetTable">
+      <tbody>
+        <tr v-for="(line,lineIndex) in chessboard">
+          <td v-for="(cell,cellIndex) in line" :class="{chosen:lineIndex==chosen[0]&&cellIndex==chosen[1]&&isChoosing, cellWithHint:isValidStep(lineIndex,cellIndex)}" @click="selectCell(lineIndex,cellIndex)" style="background-img: './img/Grass.png'">
+            <img class="chessImg" :src="'./img/'+(cell=='-'?'Grass':cell)+'.png'" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table style="display: inline-table">
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><img class="turnImg" :src="'./img/'+playerTurn+'_Clear.png'" /></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+    <div id="scoreBar">
+      <div v-for="(score,scoreIndex) in playerScore" class="inlineBlock">
+        <image :src="'./img/C'+scoreIndex+'.png'" class="scoreIcon"></image>
+        <span class="scoreText">{{score}}</span>
+        <image src="./img/Earthworm.png" class="scoreIconl" />
+      </div>
+    </div>
+    <button @click="init()">Reset</button>
+    <button @click="revertLastStep()">Revert Last Step</button>
+    <h2>Rule</h2>
+    <div>
+      <ul>
+        <li>
+          In you turn, you can choose 1 of below actions
+          <ul>
+            <li>Put one of animals to border of the board with any direction(maybe with push)</li>
+            <li>Move one valid step to the face direction(space / push)</li>
+            <li>Change one of your animals direction, without moving it</li>
+            <li>Move one of your animals from border to waiting zone</li>
+          </ul>
+        </li>
+        <li>First two turn of each player, should not place the animal to the cell with cross.</li>
+        <li>To check can push a line or not, just count all animals' direction on the line, with the direction you want to move and opposite, if your side power more than that, then can push whole line.</li>
+        <li>When first stone moved out from the borad, the game over, and the one most close to the stone and face the same direction to the stone won the game.</li>
+
+        <li>The player with most earthworm will be the winner</li>
+      </ul>
+    </div>
+    <div id="snackbar">Some text some message..</div>
+    <a href="../index.html">Back to main page</a>
+  </body>
+  <script src="../lib/vue.global.js"></script>
+  <script src="./clashOnStones.js"></script>
+</html>
