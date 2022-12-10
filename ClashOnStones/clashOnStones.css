@@ -3,6 +3,13 @@
     width: 50%;
     display: inline-table;
 }
+#operationTable{
+    display: inline-table;
+    border: none;
+}
+#operationTable td{
+    border: none;
+}
 td{
     border: 2px dashed black;
     overflow: hidden;
@@ -27,4 +34,7 @@ td{
 .playerTurnHint{
     color: red;
 }
-
+.notAbleChoose{
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+}
