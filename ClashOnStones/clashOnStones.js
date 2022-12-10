@@ -8,6 +8,7 @@ const app = Vue.createApp({
             chosen: [0, 0],
             isChoosing: false,
             playerTurn: "A",
+            turnCount: 1,
         };
     },
     mounted() {
@@ -20,6 +21,7 @@ const app = Vue.createApp({
             this.lastStepChessboard = [];
             this.validCell = [];
             this.isChoosing = false;
+            this.turnCount = 1;
             this.playerTurn = "A";
             this.drawField();
         },
@@ -27,10 +29,8 @@ const app = Vue.createApp({
             for (let i = 0; i < 5; i++) {
                 this.chessboard[i] = ['-', '-', '-', '-', '-'];
                 for (let j = 0; j < 5; j++) {
-                    if (i == 0) { this.chessboard[i][j] = j % 2 == 0 ? 'B' : 'A'; }
-                    else if (i == 4) { this.chessboard[i][j] = j % 2 == 0 ? 'A' : 'B'; }
-                    else if (i == 2 && j == 0) { this.chessboard[i][j] = 'A' }
-                    else if (i == 2 && j == 4) { this.chessboard[i][j] = 'B' }
+                    if (i == 2 && j != 0 && j != 4) { this.chessboard[i][j] = 'S'; }
+                    if ((i == 0 || i == 4) && j == 2) { this.chessboard[i][j] = 'X'; }
                 }
             }
         },

@@ -23,6 +23,9 @@ td{
     display: block;
 }
 .turnImg{
+    width: 50px;
+}
+.operationImg{
     width: 80px;
 }
 .cellWithHint{

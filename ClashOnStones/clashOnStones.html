@@ -9,13 +9,13 @@
     <link rel="stylesheet" href="../SharedComponents/sharedComponents.css" />
   </head>
   <body id="app">
-    <h1>Clash On Stones</h1>
-    <span class="turnHint">Now is <span class="playerTurnHint"> Player {{playerTurn}}</span>'s turn</span><img :src="'./img/'+playerTurn+'_Clear.png'" class="turnImg" /><br />
+    <h1 style="margin-bottom: 0px">Clash On Stones</h1>
+    <span class="turnHint">【Turn {{turnCount}}】 Now is <span class="playerTurnHint"> Player {{playerTurn}}</span>'s move</span><img :src="'./img/'+playerTurn+'_Clear.png'" class="turnImg" /><br />
     <table id="targetTable">
       <tbody>
         <tr v-for="(line,lineIndex) in chessboard">
           <td v-for="(cell,cellIndex) in line" :class="{chosen:lineIndex==chosen[0]&&cellIndex==chosen[1]&&isChoosing, cellWithHint:isValidStep(lineIndex,cellIndex)}" @click="selectCell(lineIndex,cellIndex)" style="background-img: './img/Grass.png'">
-            <img class="chessImg" :src="'./img/'+(cell=='-'?'Grass':cell)+'.png'" />
+            <img class="chessImg" :src="'./img/'+(cell=='-'?'Grass':cell[0])+'.png'" />
           </td>
         </tr>
       </tbody>
@@ -23,17 +23,17 @@
     <table id="operationTable">
       <tr>
         <td></td>
-        <td><img id="dir0" class="turnImg" :src="'./img/go.png'" /></td>
+        <td><img id="dir0" class="operationImg" :src="'./img/go.png'" /></td>
         <td></td>
       </tr>
       <tr>
-        <td><img id="dir3" class="turnImg" :src="'./img/turn_03.png'" /></td>
-        <td><img id="operationTarget" class="turnImg" :src="'./img/'+playerTurn+'_Clear.png'" /></td>
-        <td><img id="dir1" class="turnImg" :src="'./img/turn_01.png'" /></td>
+        <td><img id="dir3" class="operationImg" :src="'./img/turn_03.png'" /></td>
+        <td><img id="operationTarget" class="operationImg" :src="'./img/'+playerTurn+'_Dir.png'" /></td>
+        <td><img id="dir1" class="operationImg" :src="'./img/turn_01.png'" /></td>
       </tr>
       <tr>
         <td></td>
-        <td><img id="dir2" class="turnImg" :src="'./img/turn_02.png'" /></td>
+        <td><img id="dir2" class="operationImg" :src="'./img/turn_02.png'" /></td>
         <td></td>
       </tr>
     </table>
