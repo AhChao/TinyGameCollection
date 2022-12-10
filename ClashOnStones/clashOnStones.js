@@ -7,6 +7,8 @@ const app = Vue.createApp({
             validCell: [],
             chosen: [0, 0],
             isChoosing: false,
+            operationTarget: "A0",
+            operationDetection: [0, 1, 1, 1],
             playerTurn: "A",
             turnCount: 1,
             chessCount: [5, 5],
@@ -24,8 +26,10 @@ const app = Vue.createApp({
             this.isChoosing = false;
             this.turnCount = 1;
             this.playerTurn = "A";
-            this.chessCount = [5, 5],
-                this.drawField();
+            this.operationTarget = "A0";
+            this.operationDetection = [1, 1, 1, 1];
+            this.chessCount = [5, 5];
+            this.drawField();
         },
         drawField() {
             for (let i = 0; i < 5; i++) {
@@ -35,6 +39,24 @@ const app = Vue.createApp({
                     if ((i == 0 || i == 4) && j == 2) { this.chessboard[i][j] = 'X'; }
                 }
             }
+        },
+        choosingWaitingZone(playerName) {
+            if (this.playerTurn != playerName) {
+                return;
+            }
+            this.chosen = [-1, this.playerTurn == 'A' ? 1 : 2];
+            this.loadOperationPanel(this.playerTurn + '0');
+        },
+        loadOperationPanel(playerWithDir) {
+            this.operationTarget = playerWithDir;
+            this.operationDetection = [1, 1, 1, 1];
+        },
+        clickOperation(opDir) {
+            this.operationTarget = this.operationTarget[0] + opDir;
+            this.updateValidCellToMove();
+        },
+        updateValidCellToMove() {
+            this.operationDetection = [1, 1, 1, 1];
         },
         selectCell(lineIndex, cellIndex) {
             if (this.getPosInfo(lineIndex, cellIndex) != this.playerTurn && !this.isChoosing) return;
@@ -63,42 +85,6 @@ const app = Vue.createApp({
         },
         getPosInfo(lineIndex, cellIndex) {
             return this.chessboard[lineIndex][cellIndex];
-        },
-        updateValidCellToMove(lineIndex, cellIndex) {
-            this.validCell = [];
-            for (let i = lineIndex - 1; i >= 0; i--) {
-                if (this.getPosInfo(i, cellIndex) == '-') this.validCell.push([i, cellIndex]);
-                else break;
-            }
-            for (let i = lineIndex + 1; i <= 4; i++) {
-                if (this.getPosInfo(i, cellIndex) == '-') this.validCell.push([i, cellIndex]);
-                else break;
-            }
-            for (let i = cellIndex - 1; i >= 0; i--) {
-                if (this.getPosInfo(lineIndex, i) == '-') this.validCell.push([lineIndex, i]);
-                else break;
-            }
-            for (let i = cellIndex + 1; i <= 4; i++) {
-                if (this.getPosInfo(lineIndex, i) == '-') this.validCell.push([lineIndex, i]);
-                else break;
-            }
-            for (let i = lineIndex + 1, j = cellIndex + 1; i <= 4; i++, j++) {
-                if (this.getPosInfo(i, j) == '-') this.validCell.push([i, j]);
-                else break;
-            }
-            for (let i = lineIndex - 1, j = cellIndex - 1; i >= 0; i--, j--) {
-                if (this.getPosInfo(i, j) == '-') this.validCell.push([i, j]);
-                else break;
-            }
-            for (let i = lineIndex - 1, j = cellIndex + 1; i >= 0; i--, j++) {
-                if (this.getPosInfo(i, j) == '-') this.validCell.push([i, j]);
-                else break;
-            }
-            for (let i = lineIndex + 1, j = cellIndex - 1; i <= 4; i++, j--) {
-                if (this.getPosInfo(i, j) == '-') this.validCell.push([i, j]);
-                else break;
-            }
-
         },
         isValidStep(lineIndex, cellIndex) {
             return this.validCell.some(cell => {

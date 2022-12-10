@@ -23,26 +23,26 @@
     <table id="operationTable">
       <tr>
         <td></td>
-        <td><img id="dir0" class="operationImg" :src="'./img/go.png'" /></td>
+        <td><img id="dir0" :class="{operationImg:true,notAbleChoose:operationDetection[0]==0}" :src="'./img/turn_'+operationTarget[1]+'0.png'" @click="operationDetection[0]==1&&clickOperation('0')" /></td>
         <td></td>
       </tr>
       <tr>
-        <td><img id="dir3" class="operationImg" :src="'./img/turn_03.png'" /></td>
-        <td><img id="operationTarget" class="operationImg" :src="'./img/'+playerTurn+'_Dir.png'" /></td>
-        <td><img id="dir1" class="operationImg" :src="'./img/turn_01.png'" /></td>
+        <td><img id="dir3" :class="{operationImg:true,notAbleChoose:operationDetection[3]==0}" :src="'./img/turn_'+operationTarget[1]+'3.png'" @click="operationDetection[3]==1&&clickOperation('3')" /></td>
+        <td><img id="operationTarget" class="operationImg" :src="'./img/'+operationTarget+'_Op.png'" /></td>
+        <td><img id="dir1" :class="{operationImg:true,notAbleChoose:operationDetection[1]==0}" :src="'./img/turn_'+operationTarget[1]+'1.png'" @click="operationDetection[1]==1&&clickOperation('1')" /></td>
       </tr>
       <tr>
         <td></td>
-        <td><img id="dir2" class="operationImg" :src="'./img/turn_02.png'" /></td>
+        <td><img id="dir2" :class="{operationImg:true,notAbleChoose:operationDetection[2]==0}" :src="'./img/turn_'+operationTarget[1]+'2.png'" @click="operationDetection[2]==1&&clickOperation('2')" /></td>
         <td></td>
       </tr>
     </table>
     <div style="margin-top: 10px">
       <span v-for="n in chessCount[0]"
-        ><td><img id="operationTarget" class="operationImg" :src="'./img/A_Dir.png'" @click="choosingWaitZone('A')" /></td
+        ><td><img :class="{operationImg:true, chosen:chosen[0]==-1&&chosen[1]==1&&n==1}" :src="'./img/A_Clear.png'" @click="choosingWaitingZone('A')" /></td
       ></span>
       <span v-for="n in chessCount[1]"
-        ><td><img id="operationTarget" class="operationImg" :src="'./img/B_Dir.png'" @click="choosingWaitZone('B')" /></td
+        ><td><img class="operationImg" :src="'./img/B_Clear.png'" @click="choosingWaitingZone('B')" /></td
       ></span>
     </div>
     <button @click="init()">Reset</button>
