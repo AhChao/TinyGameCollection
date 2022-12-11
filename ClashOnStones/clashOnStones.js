@@ -91,6 +91,9 @@ const app = Vue.createApp({
                 if (this.chosen[0] == -1) {
                     this.chessCount[this.playerTurn == "A" ? 0 : 1]--;
                 }
+                else {
+                    this.chessboard[this.chosen[0]][this.chosen[1]] = "-";
+                }
                 this.playerTurnFinish();
                 return;
             }
