@@ -68,28 +68,55 @@ const app = Vue.createApp({
                         }
                     }
                 }
+                return;
+            }
+            let validDir = [[0, -1], [0, 1], [1, 0], [-1, 0]];
+            let posInfo = "";
+            let dir = "";
+            for (let i in validDir) {
+                dir = validDir[i];
+                posInfo = this.getPosInfo(this.chosen[0] * 1 + dir[0] * 1, this.chosen[1] * 1 + dir[1] * 1);
+                console.log(dir, validDir[dir], this.chosen, this.chosen[0] + dir[0], this.chosen[1] + dir[1], posInfo);
+                if (posInfo == "O") continue;
+                if (posInfo == "-") {
+                    this.validCell.push([this.chosen[0] + dir[0], this.chosen[1] + dir[1]]);
+                    continue;
+                }
             }
         },
         selectCell(lineIndex, cellIndex) {
             if (this.isChoosing) {
+                if (!this.isValidStep(lineIndex, cellIndex)) return;
+                this.chessboard[lineIndex][cellIndex] = this.operationTarget;
+                this.turnCount += this.playerTurn == "B" ? 1 : 0;
                 if (this.chosen[0] == -1) {
-                    this.chessboard[lineIndex][cellIndex] = this.operationTarget;
-                    this.turnCount += this.playerTurn == "B" ? 1 : 0;
                     this.chessCount[this.playerTurn == "A" ? 0 : 1]--;
-                    this.playerTurn = this.playerTurn == "A" ? "B" : "A";
-                    this.isChoosing = false;
-                    this.loadOperationPanel(this.playerTurn + '0');
-                    if (this.turnCount == 3) {
-                        if (this.chessboard[0][2] == "X") this.chessboard[0][2] = "-";
-                        if (this.chessboard[4][2] == "X") this.chessboard[4][2] = "-";
-                        //TODO:X should only block place, not block move, and even moved into, first two round should not be entered;
-                        //Not yet deal on it, if first two round some one enter, then second one can push the chess on the X
-                    }
                 }
+                this.playerTurn = this.playerTurn == "A" ? "B" : "A";
+                this.isChoosing = false;
+                this.loadOperationPanel(this.playerTurn + '0');
+                if (this.turnCount == 3) {
+                    if (this.chessboard[0][2] == "X") this.chessboard[0][2] = "-";
+                    if (this.chessboard[4][2] == "X") this.chessboard[4][2] = "-";
+                    //TODO:X should only block place, not block move, and even moved into, first two round should not be entered;
+                    //Not yet deal on it, if first two round some one enter, then second one can push the chess on the X
+                }
+
+                return;
+            }
+            if (this.getPosInfo(lineIndex, cellIndex)[0] == this.playerTurn) {
+                this.chosen = [lineIndex, cellIndex];
+                this.isChoosing = true;
+                this.loadOperationPanel(this.getPosInfo(lineIndex, cellIndex));
             }
         },
         getPosInfo(lineIndex, cellIndex) {
-            return this.chessboard[lineIndex][cellIndex];
+            try {
+                return this.chessboard[lineIndex][cellIndex];
+            }
+            catch (e) {
+                return 'O';//out of bound
+            }
         },
         isValidStep(lineIndex, cellIndex) {
             return this.validCell.some(cell => {

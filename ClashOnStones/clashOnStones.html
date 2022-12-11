@@ -14,13 +14,13 @@
     <table id="targetTable">
       <tbody>
         <tr v-for="(line,lineIndex) in chessboard">
-          <td v-for="(cell,cellIndex) in line" :class="{chosen:lineIndex==chosen[0]&&cellIndex==chosen[1]&&isChoosing, cellWithHint:isValidStep(lineIndex,cellIndex)}" @click="isValidStep(lineIndex,cellIndex)&&selectCell(lineIndex,cellIndex)" style="background-img: './img/Grass.png'">
+          <td v-for="(cell,cellIndex) in line" :class="{chosen:lineIndex==chosen[0]&&cellIndex==chosen[1]&&isChoosing, cellWithHint:isValidStep(lineIndex,cellIndex)}" @click="selectCell(lineIndex,cellIndex)" style="background-img: './img/Grass.png'">
             <img class="chessImg" :src="'./img/'+(cell=='-'?'Grass':cell)+'.png'" />
           </td>
         </tr>
       </tbody>
     </table>
-    <table id="operationTable">
+    <table id="operationTable" :class="{hideOperationTable:!isChoosing}">
       <tr>
         <td></td>
         <td><img id="dir0" :class="{operationImg:true,notAbleChoose:operationDetection[0]==0}" :src="'./img/turn_'+operationTarget[1]+'0.png'" @click="operationDetection[0]==1&&clickOperation('0')" /></td>
@@ -34,7 +34,7 @@
       <tr>
         <td></td>
         <td><img id="dir2" :class="{operationImg:true,notAbleChoose:operationDetection[2]==0}" :src="'./img/turn_'+operationTarget[1]+'2.png'" @click="operationDetection[2]==1&&clickOperation('2')" /></td>
-        <td></td>
+        <td><img id="cancelOp" :class="{operationImg:true}" :src="'./img/X_clear.png'" @click="isChoosing=false;updateValidCellToMove()" /></td>
       </tr>
     </table>
     <div style="margin-top: 10px">
