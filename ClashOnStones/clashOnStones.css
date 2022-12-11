@@ -44,3 +44,6 @@ td{
 .hideOperationTable{
     visibility: hidden;
 }
+.hiddenTarget{
+    display: hidden;
+}
