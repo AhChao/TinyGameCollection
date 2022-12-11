@@ -45,43 +45,48 @@ const app = Vue.createApp({
                 return;
             }
             this.chosen = [-1, this.playerTurn == 'A' ? 1 : 2];
+            this.isChoosing = true;
             this.loadOperationPanel(this.playerTurn + '0');
         },
         loadOperationPanel(playerWithDir) {
             this.operationTarget = playerWithDir;
             this.operationDetection = [1, 1, 1, 1];
+            this.updateValidCellToMove();
         },
         clickOperation(opDir) {
             this.operationTarget = this.operationTarget[0] + opDir;
             this.updateValidCellToMove();
         },
         updateValidCellToMove() {
-            this.operationDetection = [1, 1, 1, 1];
+            this.validCell = [];
+            if (!this.isChoosing) return;
+            if (this.chosen[0] == -1) {
+                for (let i = 0; i < this.chessboard.length; i++) {
+                    for (let j = 0; j < this.chessboard[i].length; j++) {
+                        if ((i == 0 || i == 4 || j == 0 || j == 4) && this.getPosInfo(i, j) == '-') {
+                            this.validCell.push([i, j]);
+                        }
+                    }
+                }
+            }
         },
         selectCell(lineIndex, cellIndex) {
-            if (this.getPosInfo(lineIndex, cellIndex) != this.playerTurn && !this.isChoosing) return;
             if (this.isChoosing) {
-                if (this.getPosInfo(lineIndex, cellIndex) == this.playerTurn) {
-                    this.chosen = [lineIndex, cellIndex];
-                    this.isChoosing = true;
-                    this.updateValidCellToMove(lineIndex, cellIndex);
-                    return;
-                }
-                if (this.isValidStep(lineIndex, cellIndex)) {
-                    this.lastStepChessboard.push(JSON.parse(JSON.stringify(this.chessboard)));
-                    this.chessboard[this.chosen[0]][this.chosen[1]] = '-';
-                    this.chessboard[lineIndex][cellIndex] = this.playerTurn;
+                if (this.chosen[0] == -1) {
+                    this.chessboard[lineIndex][cellIndex] = this.operationTarget;
+                    this.turnCount += this.playerTurn == "B" ? 1 : 0;
+                    this.chessCount[this.playerTurn == "A" ? 0 : 1]--;
+                    this.playerTurn = this.playerTurn == "A" ? "B" : "A";
                     this.isChoosing = false;
-                    this.validCell = [];
-                    this.playerTurn = this.playerTurn == 'A' ? 'B' : 'A';
-                    this.isWinTheGameByLastChess(lineIndex, cellIndex);
-                    return;
+                    this.loadOperationPanel(this.playerTurn + '0');
+                    if (this.turnCount == 3) {
+                        if (this.chessboard[0][2] == "X") this.chessboard[0][2] = "-";
+                        if (this.chessboard[4][2] == "X") this.chessboard[4][2] = "-";
+                        //TODO:X should only block place, not block move, and even moved into, first two round should not be entered;
+                        //Not yet deal on it, if first two round some one enter, then second one can push the chess on the X
+                    }
                 }
-                return;
             }
-            this.chosen = [lineIndex, cellIndex];
-            this.isChoosing = true;
-            this.updateValidCellToMove(lineIndex, cellIndex);
         },
         getPosInfo(lineIndex, cellIndex) {
             return this.chessboard[lineIndex][cellIndex];

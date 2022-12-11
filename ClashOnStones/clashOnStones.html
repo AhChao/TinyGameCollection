@@ -14,8 +14,8 @@
     <table id="targetTable">
       <tbody>
         <tr v-for="(line,lineIndex) in chessboard">
-          <td v-for="(cell,cellIndex) in line" :class="{chosen:lineIndex==chosen[0]&&cellIndex==chosen[1]&&isChoosing, cellWithHint:isValidStep(lineIndex,cellIndex)}" @click="selectCell(lineIndex,cellIndex)" style="background-img: './img/Grass.png'">
-            <img class="chessImg" :src="'./img/'+(cell=='-'?'Grass':cell[0])+'.png'" />
+          <td v-for="(cell,cellIndex) in line" :class="{chosen:lineIndex==chosen[0]&&cellIndex==chosen[1]&&isChoosing, cellWithHint:isValidStep(lineIndex,cellIndex)}" @click="isValidStep(lineIndex,cellIndex)&&selectCell(lineIndex,cellIndex)" style="background-img: './img/Grass.png'">
+            <img class="chessImg" :src="'./img/'+(cell=='-'?'Grass':cell)+'.png'" />
           </td>
         </tr>
       </tbody>
@@ -39,10 +39,10 @@
     </table>
     <div style="margin-top: 10px">
       <span v-for="n in chessCount[0]"
-        ><td><img :class="{operationImg:true, chosen:chosen[0]==-1&&chosen[1]==1&&n==1}" :src="'./img/A_Clear.png'" @click="choosingWaitingZone('A')" /></td
+        ><td><img :class="{operationImg:true, chosen:chosen[0]==-1&&chosen[1]==1&&n==1&&isChoosing&&playerTurn=='A'}" :src="'./img/A_Clear.png'" @click="choosingWaitingZone('A')" /></td
       ></span>
       <span v-for="n in chessCount[1]"
-        ><td><img class="operationImg" :src="'./img/B_Clear.png'" @click="choosingWaitingZone('B')" /></td
+        ><td><img :class="{operationImg:true, chosen:chosen[0]==-1&&chosen[1]==2&&n==1&&isChoosing&&playerTurn=='B'}" :src="'./img/B_Clear.png'" @click="choosingWaitingZone('B')" /></td
       ></span>
     </div>
     <button @click="init()">Reset</button>

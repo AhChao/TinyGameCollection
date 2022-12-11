@@ -1,6 +1,6 @@
 #targetTable{
     border: 2px solid black;
-    width: 50%;
+    width: 30%;
     display: inline-table;
 }
 #operationTable{
@@ -15,7 +15,7 @@ td{
     overflow: hidden;
 }
 .chosen{
-    border: 2px solid red;
+    border: 3px solid red;
     border-radius: 3px;
 }
 .chessImg{
@@ -29,7 +29,7 @@ td{
     width: 80px;
 }
 .cellWithHint{
-    border: 2px dashed red;
+    border: 3px solid red;
 }
 .turnHint{
     font-size: 30px;
