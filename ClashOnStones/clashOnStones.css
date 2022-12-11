@@ -45,5 +45,5 @@ td{
     visibility: hidden;
 }
 .hiddenTarget{
-    display: hidden;
+    display: none;
 }

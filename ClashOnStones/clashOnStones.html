@@ -32,7 +32,7 @@
         <td><img id="dir1" :class="{operationImg:true,notAbleChoose:operationDetection[1]==0}" :src="'./img/turn_'+operationTarget[1]+'1.png'" @click="operationDetection[1]==1&&clickOperation('1')" /></td>
       </tr>
       <tr>
-        <td><img id="retreatOp" :class="{operationImg:true,hiddenTarget:isAbleToRetreat()}" :src="'./img/retreat.png'" @click="retreat()" /></td>
+        <td><img id="retreatOp" :class="{operationImg:true,hiddenTarget:!isAbleToRetreat()}" :src="'./img/retreat.png'" @click="retreat()" /></td>
         <td><img id="dir2" :class="{operationImg:true,notAbleChoose:operationDetection[2]==0}" :src="'./img/turn_'+operationTarget[1]+'2.png'" @click="operationDetection[2]==1&&clickOperation('2')" /></td>
         <td><img id="cancelOp" :class="{operationImg:true}" :src="'./img/X_clear.png'" @click="isChoosing=false;updateValidCellToMove()" /></td>
       </tr>
