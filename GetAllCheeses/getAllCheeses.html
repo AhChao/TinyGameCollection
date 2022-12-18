@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Get All Cheeses</title>
+    <link rel="stylesheet" href="./getAllCheeses.css" />
+    <link rel="stylesheet" href="../SharedComponents/sharedComponents.css" />
+  </head>
+  <body id="app">
+    <h1>All Queen Chess</h1>
+    <span class="turnHint">Now is Player <span class="playerTurnHint">{{playerTurn}}</span>'s turn</span><img :src="'./img/'+playerTurn+'.png'" class="chessImg" /><br />
+
+    <h1>Click the dice to roll</h1>
+    <section class="container">
+      <div id="cube" @click="rollTheDice()">
+        <div class="front"></div>
+        <div class="back"></div>
+        <div class="right"></div>
+        <div class="left"></div>
+        <div class="top"></div>
+        <div class="bottom"></div>
+      </div>
+    </section>
+
+    <button @click="init()">Reset</button>
+    <button @click="revertLastStep()">Revert Last Step</button>
+    <h2>Rule</h2>
+    <div>
+      <ul>
+        <li>All chesses move like queen.</li>
+        <li>The chess cannot cross another chess</li>
+        <li>Players take turn to move one of their chesses</li>
+        <li>First player make 4 of his/her chesses in-a-line won the game.</li>
+      </ul>
+    </div>
+    <div id="snackbar">Some text some message..</div>
+    <a href="../index.html">Back to main page</a>
+  </body>
+  <script src="../lib/vue.global.js"></script>
+  <script src="./getAllCheeses.js"></script>
+</html>
