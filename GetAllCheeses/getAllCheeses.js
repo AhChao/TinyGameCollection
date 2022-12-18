@@ -29,8 +29,9 @@ const app = Vue.createApp({
         getRandom(max, min) {
             return (Math.floor(Math.random() * (max - min)) + min) * 90;
         },
-        rollTheDice() {
-            let cube = document.getElementById('cube');
+        rollTheDice(id) {
+            console.log(id);
+            let cube = document.getElementById(id);
             let xRand = this.getRandom(this.randomMax, this.randomMin);
             let yRand = this.getRandom(this.randomMax, this.randomMin);
             cube.style.webkitTransform = 'rotateX(' + xRand + 'deg) rotateY(' + yRand + 'deg)';
