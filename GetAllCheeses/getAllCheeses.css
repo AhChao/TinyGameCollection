@@ -26,7 +26,7 @@ input[type=color]{
 }
   
 .front {
-  background-image: url("./img/mouse_nobg.png");
+  background-image: url("./img/mouse.png");
   transform: 
     translateZ(40px);
 }
@@ -46,7 +46,7 @@ input[type=color]{
 }
 
 .left {
-  background-image: url("./img/mouse_nobg.png");
+  background-image: url("./img/mouse.png");
   transform:
     rotateY(-90deg)
     translateZ(40px);
@@ -67,6 +67,7 @@ input[type=color]{
 }
 
 .diceContainer {
+  cursor: pointer;
   width: 80px;
   height: 80px;
   position: relative;
@@ -76,13 +77,24 @@ input[type=color]{
   perspective-origin: 50% 100%;
 }
 
+.imgInConfirmedZone{
+  width: 80px;
+  border: 5px black solid;
+  margin-left: 5px;
+  margin-top: 5px;
+}
 .cube {
   width: 80px;
   height: 80px;  
   transform-style: preserve-3d;
   transition: transform 3s;
 }
-
+.notransition {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
 .cube>div {
   display: block;
   position: fixed;

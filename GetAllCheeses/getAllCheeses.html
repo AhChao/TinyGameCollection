@@ -11,12 +11,11 @@
   </head>
   <body id="app">
     <h1 class="text-center">Get All Cheeses</h1>
-    <h4 class="text-center">Now is Player <span class="playerTurnHint">{{playerTurn}}</span>'s turn <img src="./img/mouse_nobg.png" class="chessImg" :style="{'background-color':playerColor[playerTurn-1]}" /></h4>
-    <button @click="rollTheDices()">Roll The Dices</button>
+    <h4 class="text-center">Now is Player <span class="playerTurnHint">{{playerTurn}}</span>'s turn <img src="./img/mouse.png" class="chessImg" :style="{'background-color':playerColor[playerTurn-1]}" /> <button v-show="phase=='choosing'&&chosen!=-1" @click="confirmChosen()">Confirm</button></h4>
     <div class="mt-5 mt-xl-2"></div>
     <div class="container">
       <div class="row">
-        <div v-for="index in remainDiceCount[this.playerTurn-1]" class="col-4 col-xl-2">
+        <div v-for="index in remainDiceCount" class="col-4 col-xl-2">
           <section class="diceContainer" @click="clickOnDice(index)">
             <div :id="'dice'+index" class="cube">
               <div class="front" :style="{'background-color':playerColor[playerTurn-1]}"></div>
@@ -30,7 +29,22 @@
         </div>
       </div>
     </div>
-    <div class="cotainer text-center">
+    <div id="chosenArea" class="container">
+      <div class="row">
+        <div class="col-6">
+          <img v-for="index in choseList['cheese0']" src="./img/cheese0.png" class="imgInConfirmedZone" />
+          <img v-for="index in choseList['cheese1']" src="./img/cheese1.png" class="imgInConfirmedZone" />
+          <img v-for="index in choseList['cheese2']" src="./img/cheese2.png" class="imgInConfirmedZone" />
+        </div>
+        <div class="col-6">
+          <div class="col-12">
+            <img v-for="index in choseList['cat']" src="./img/cat.png" class="imgInConfirmedZone" />
+          </div>
+          <div class="col-12"><img v-for="index in choseList['mouse']" src="./img/mouse.png" class="imgInConfirmedZone" :style="{'background-color':playerColor[playerTurn-1]}" /></div>
+        </div>
+      </div>
+    </div>
+    <div id="playerInfoArea" class="cotainer text-center">
       <div class="row">
         <span v-for="index in playerCount" class="col-6">
           <span class="col-3 h4"><span class="colorPin" @click="changeColor(index)" :style="{'background-color':playerColor[index-1]}"></span><span style="text-align: center">Player {{index}} : </span></span>
