@@ -11,7 +11,11 @@
   </head>
   <body id="app">
     <h1 class="text-center">Get All Cheeses</h1>
-    <h4 class="text-center">Now is Player <span class="playerTurnHint">{{playerTurn}}</span>'s turn <img src="./img/mouse.png" class="chessImg" :style="{'background-color':playerColor[playerTurn-1]}" /> <button v-show="phase=='choosing'&&chosen!=-1" @click="confirmChosen()">Confirm</button></h4>
+    <h4 class="text-center">
+      Now is Player <span class="playerTurnHint">{{playerTurn}}</span>'s turn : [{{phase}}] phase <img v-if="phase=='choosing'&&chosen!=-1" :src="'./img/'+rollResult[chosen-1]+'.png'" class="chessImg" :style="{'background-color':playerColor[playerTurn-1]}" />
+      <button style="margin-left: 3px" v-show="phase=='choosing'&&chosen!=-1" @click="confirmChosen()">Confirm</button>
+      <button style="margin-left: 3px" v-show="phase=='choosing'" @click="turnEnd()">End Turn</button>
+    </h4>
     <div class="mt-5 mt-xl-2"></div>
     <div class="container">
       <div class="row">
@@ -49,7 +53,7 @@
         <span v-for="index in playerCount" class="col-6">
           <span class="col-3 h4"><span class="colorPin" @click="changeColor(index)" :style="{'background-color':playerColor[index-1]}"></span><span style="text-align: center">Player {{index}} : </span></span>
           <input :id="'color_input'+index" type="color" v-model="playerColor[index-1]" />
-          <span class="col-2 h4">Score</span>
+          <span class="col-2 h4">{{playerScore[index-1]}}</span>
         </span>
       </div>
     </div>

@@ -13,6 +13,7 @@ const app = Vue.createApp({
             rollResult: [],
             choseList: [],
             playerColor: ["#DCDCDC", "#DCDCDC"],
+            playerScore: [0, 0],
             phase: "roll"//roll - wait - choosing
         };
     },
@@ -23,10 +24,26 @@ const app = Vue.createApp({
     },
     methods: {
         init() {
-            this.lastStepChessboard = [];
-            this.validCell = [];
-            this.isChoosing = false;
+            this.playerScore = [0, 0];
             this.playerTurn = 1;
+            this.turnStart();
+        },
+        turnStart() {
+            this.remainDiceCount = this.diceCount;
+            this.rollResult = [];
+            this.choseList = [];
+            this.chosen = -1;
+            this.resetDiceDisplay();
+        },
+        resetDiceDisplay() {
+            let cube = "";
+            for (let i = 0; i < this.remainDiceCount; i++) {
+                cube = document.getElementById("dice" + (i * 1 + 1));
+                cube.classList.add('notransition');
+                cube.style.webkitTransform = "";
+                cube.style.transform = "";
+                cube.classList.remove('notransition');
+            }
         },
         changeColor(index) {
             document.getElementById("color_input" + index).click();
@@ -85,7 +102,6 @@ const app = Vue.createApp({
 
         },
         clickOnDice(diceIndex) {
-            console.log(diceIndex, this.phase);
             if (this.phase == "roll") {
                 this.chosen = -1;
                 this.rollTheDices();
@@ -94,7 +110,6 @@ const app = Vue.createApp({
             }
             if (this.phase == "choosing") {
                 this.chosen = diceIndex;
-                console.log(this.getIndexWithPattern(this.rollResult[this.chosen - 1]));
             }
         },
         waitForDiceAnimate() {
@@ -107,9 +122,10 @@ const app = Vue.createApp({
                     this.phase = "choosing";
                 }
                 else {
+                    this.showMessageWithToast("No more moves");
                     this.turnEnd();
                 }
-            }, 2000);
+            }, 1500);
         },
         getIndexWithPattern(pattern) {
             if (this.rollResult.length == 0) return [];
@@ -132,7 +148,10 @@ const app = Vue.createApp({
             let elementIndexes = this.getIndexWithPattern(chosenElement);
             let elementCount = elementIndexes.length;
             if (chosenElement in this.choseList) {
-                if (chosenElement != "mouse") return;
+                if (chosenElement != "mouse") {
+                    this.showMessageWithToast("You already have " + chosenElement + "!");
+                    return;
+                }
                 this.choseList["mouse"] += elementCount;
             }
             else {
@@ -140,13 +159,24 @@ const app = Vue.createApp({
             }
             this.switchDisplayForPattern(chosenElement);
             if (!this.checkPickingAvailable()) {
-                console.log("No need to roll");
+                this.showMessageWithToast("No more moves");
+                this.turnEnd();
+                return;
             }
             this.phase = "roll";
         },
         checkPickingAvailable() {
-            if (("cheese0" in this.choseList) && ("cheese1" in this.choseList) && ("cheese2" in this.choseList) && !this.rollResult.some("mouse")) return false;
             if (("cat" in this.choseList) && this.choseList["cat"] > this.remainDiceCount + (("mouse" in this.choseList) ? this.choseList["mouse"] : 0)) return false;
+            if (this.remainDiceCount == 0) return false;
+            let uniqueItems = [...new Set(this.rollResult)];
+            let cheeseKindAbleToChoose = 3;
+            for (let i in uniqueItems) {
+                if (uniqueItems[i] in this.choseList) {
+                    if (uniqueItems[i] != "mouse" || uniqueItems[i] != "cat")
+                        cheeseKindAbleToChoose--;
+                }
+            }
+            if (cheeseKindAbleToChoose == 0 && !this.rollResult.some("mouse")) return false;
             return true;
         },
         switchDisplayForPattern(pattern) {
@@ -166,6 +196,30 @@ const app = Vue.createApp({
             }
             this.rollResult = this.rollResult.filter(item => item !== pattern);
             this.remainDiceCount = this.rollResult.length;
+        },
+        turnEnd() {
+            let score = this.calculateScore();
+            this.playerScore[this.playerTurn - 1] += score;
+            this.showMessageWithToast("Player " + this.playerTurn + " got " + score + " this turn!");
+            this.playerTurn++;
+            if (this.playerTurn > this.playerCount) this.playerTurn = 1;
+            this.turnStart();
+        },
+        calculateScore() {
+            let cheeseType = 0;
+            let score = 0;
+            let catCount = 0;
+            let mouseCount = 0;
+            let cheeseArr = ["cheese0", "cheese1", "cheese2"];
+            for (let i in cheeseArr) {
+                if (cheeseArr[i] in this.choseList) {
+                    cheeseType++;
+                    score += this.choseList[cheeseArr[i]];
+                }
+            }
+            if ("cat" in this.choseList) catCount = this.choseList["cat"];
+            if ("mouse" in this.choseList) mouseCount = this.choseList["mouse"];
+            return catCount > mouseCount ? 0 : score;
         },
         showMessageWithToast(msg) {
             var x = document.getElementById("snackbar");
