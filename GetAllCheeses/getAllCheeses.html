@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Get All Cheeses</title>
+    <link rel="stylesheet" href="../lib/bootstrap.min.css" />
     <link rel="stylesheet" href="./getAllCheeses.css" />
     <link rel="stylesheet" href="../SharedComponents/sharedComponents.css" />
   </head>
@@ -13,16 +14,24 @@
     <span class="turnHint">Now is Player <span class="playerTurnHint">{{playerTurn}}</span>'s turn</span><img :src="'./img/'+playerTurn+'.png'" class="chessImg" /><br />
 
     <h1>Click the dice to roll</h1>
-    <section class="container">
-      <div id="dice1" class="cube" @click="rollTheDice('dice1')">
-        <div class="front"></div>
-        <div class="back"></div>
-        <div class="right"></div>
-        <div class="left"></div>
-        <div class="top"></div>
-        <div class="bottom"></div>
+    <button @click="rollTheDices()">Roll The Dices</button>
+    <div class="container">
+      <div class="row">
+        <div v-for="index in remainDiceCount[this.playerTurn-1]" class="col-2">
+          <section class="diceContainer">
+            <div :id="'dice'+index" class="cube">
+              <div class="front"></div>
+              <div class="back"></div>
+              <div class="right"></div>
+              <div class="left"></div>
+              <div class="top"></div>
+              <div class="bottom"></div>
+            </div>
+          </section>
+        </div>
       </div>
-    </section>
+    </div>
+    <div>{{rollResult}}</div>
 
     <button @click="init()">Reset</button>
     <button @click="revertLastStep()">Revert Last Step</button>
