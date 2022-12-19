@@ -14,7 +14,7 @@ const app = Vue.createApp({
             choseList: [],
             playerColor: ["#DCDCDC", "#DCDCDC"],
             playerScore: [0, 0],
-            phase: "roll"//roll - wait - choosing
+            phase: "roll"//roll - wait - catPicking - choosing - turnSettlement
         };
     },
     mounted() {
@@ -33,12 +33,14 @@ const app = Vue.createApp({
             this.rollResult = [];
             this.choseList = [];
             this.chosen = -1;
+            this.phase = "roll";
             this.resetDiceDisplay();
         },
         resetDiceDisplay() {
             let cube = "";
             for (let i = 0; i < this.remainDiceCount; i++) {
                 cube = document.getElementById("dice" + (i * 1 + 1));
+                if (cube === undefined || cube === null) break;
                 cube.classList.add('notransition');
                 cube.style.webkitTransform = "";
                 cube.style.transform = "";
@@ -201,9 +203,15 @@ const app = Vue.createApp({
             let score = this.calculateScore();
             this.playerScore[this.playerTurn - 1] += score;
             this.showMessageWithToast("Player " + this.playerTurn + " got " + score + " this turn!");
-            this.playerTurn++;
-            if (this.playerTurn > this.playerCount) this.playerTurn = 1;
-            this.turnStart();
+            this.phase = "turnSettlement";
+            this.turnSettlement();
+        },
+        turnSettlement() {
+            setTimeout(() => {
+                this.playerTurn++;
+                if (this.playerTurn > this.playerCount) this.playerTurn = 1;
+                this.turnStart();
+            }, 2000);
         },
         calculateScore() {
             let cheeseType = 0;
@@ -219,6 +227,7 @@ const app = Vue.createApp({
             }
             if ("cat" in this.choseList) catCount = this.choseList["cat"];
             if ("mouse" in this.choseList) mouseCount = this.choseList["mouse"];
+            if (cheeseType == 3) score += 3;
             return catCount > mouseCount ? 0 : score;
         },
         showMessageWithToast(msg) {
