@@ -11,7 +11,7 @@
   </head>
   <body id="app">
     <h1>All Queen Chess</h1>
-    <span class="turnHint">Now is Player <span class="playerTurnHint">{{playerTurn}}</span>'s turn</span><img :src="'./img/'+playerTurn+'.png'" class="chessImg" /><br />
+    <span class="turnHint">Now is Player <span class="playerTurnHint">{{playerTurn}}</span>'s turn</span><img src="./img/mouse_nobg.png" class="chessImg" :style="{'background-color':playerColor[playerTurn-1]}" /><br />
 
     <h1>Click the dice to roll</h1>
     <button @click="rollTheDices()">Roll The Dices</button>
@@ -20,10 +20,10 @@
         <div v-for="index in remainDiceCount[this.playerTurn-1]" class="col-2">
           <section class="diceContainer">
             <div :id="'dice'+index" class="cube">
-              <div class="front"></div>
+              <div class="front" :style="{'background-color':playerColor[playerTurn-1]}"></div>
               <div class="back"></div>
               <div class="right"></div>
-              <div class="left"></div>
+              <div class="left" :style="{'background-color':playerColor[playerTurn-1]}"></div>
               <div class="top"></div>
               <div class="bottom"></div>
             </div>
@@ -32,9 +32,12 @@
       </div>
     </div>
     <div>{{rollResult}}</div>
-
+    <div class="cotainer">
+      <div class="row">
+        <div class="col-3" v-for="index in playerCount"><span>Player {{index}}</span><input type="color" v-model="playerColor[index-1]" /></div>
+      </div>
+    </div>
     <button @click="init()">Reset</button>
-    <button @click="revertLastStep()">Revert Last Step</button>
     <h2>Rule</h2>
     <div>
       <ul>

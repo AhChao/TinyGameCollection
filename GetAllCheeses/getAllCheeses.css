@@ -26,7 +26,7 @@ td{
 
   
 .front {
-  background-image: url("./img/mouse.png");
+  background-image: url("./img/mouse_nobg.png");
   transform: 
     translateZ(50px);
 }
@@ -46,7 +46,7 @@ td{
 }
 
 .left {
-  background-image: url("./img/mouse.png");
+  background-image: url("./img/mouse_nobg.png");
   transform:
     rotateY(-90deg)
     translateZ(50px);

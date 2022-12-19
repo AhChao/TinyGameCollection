@@ -15,6 +15,7 @@ const app = Vue.createApp({
             diceCount: 13,
             remainDiceCount: [13],
             rollResult: {},
+            playerColor: ["#DCDCDC", "#DCDCDC"],
         };
     },
     mounted() {
@@ -85,13 +86,6 @@ const app = Vue.createApp({
                 return "cheese1";
             }
 
-        },
-        revertLastStep() {
-            if (this.lastStepChessboard.length == 0) return;
-            this.chessboard = JSON.parse(JSON.stringify(this.lastStepChessboard.pop()));
-            this.playerTurn = this.playerTurn == 'A' ? 'B' : 'A';
-            this.isChoosing = false;
-            this.validCell = [];
         },
         WonTheGameBy(chessOwner) {
             var x = document.getElementById("snackbar");
