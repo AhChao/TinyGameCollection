@@ -30,6 +30,9 @@ const app = Vue.createApp({
             this.isChoosing = false;
             this.playerTurn = 1;
         },
+        changeColor(index) {
+            document.getElementById("color_input" + index).click();
+        },
         getRandom(max, min) {
             return (Math.floor(Math.random() * (max - min)) + min) * 90;
         },

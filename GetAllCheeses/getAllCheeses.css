@@ -1,12 +1,3 @@
-#targetTable{
-    border: 2px solid black;
-    width: 50%;
-}
-td{
-    border: 2px solid black;
-    width: 50px;
-    overflow: hidden;
-}
 .chosen{
     border: 2px solid red;
     border-radius: 3px;
@@ -23,52 +14,61 @@ td{
 .playerTurnHint{
     color: red;
 }
-
+input[type=color]{
+  display: none;
+}
+.colorPin {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px; 
+  display:inline-block;
+  border: 1px solid black;
+}
   
 .front {
   background-image: url("./img/mouse_nobg.png");
   transform: 
-    translateZ(50px);
+    translateZ(40px);
 }
 
 .back {
   background-image: url("./img/cat.png");
   transform: 
     rotateX(-180deg)
-    translateZ(50px);
+    translateZ(40px);
 }
 
 .right {
   background-image: url("./img/cheese0.png");
   transform:
     rotateY(90deg)
-    translateZ(50px);
+    translateZ(40px);
 }
 
 .left {
   background-image: url("./img/mouse_nobg.png");
   transform:
     rotateY(-90deg)
-    translateZ(50px);
+    translateZ(40px);
 }
 
 .top {
   background-image: url("./img/cheese1.png");
   transform:
     rotateX(90deg)
-    translateZ(50px);
+    translateZ(40px);
 }
 
 .bottom {
   background-image: url("./img/cheese2.png");
   transform:
     rotateX(-90deg)
-    translateZ(50px);
+    translateZ(40px);
 }
 
 .diceContainer {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   position: relative;
   margin: 0 auto 40px;
   border: 1px solid #FFF;
@@ -77,9 +77,8 @@ td{
 }
 
 .cube {
-  width: 100%;
-  height: 100%;
-  
+  width: 80px;
+  height: 80px;  
   transform-style: preserve-3d;
   transition: transform 3s;
 }
@@ -87,10 +86,12 @@ td{
 .cube>div {
   display: block;
   position: fixed;
-  width: 100px;
-  background-size: 100px;
+  width: 80px;
+  background-size: 120%;
+  background-position: center;
+  background-repeat:no-repeat;
   border: 5px solid black;
   margin: 0 auto;  
   text-align: center;
-  padding: 50px 0;
+  padding: 40px 0;
 }
