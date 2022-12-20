@@ -40,15 +40,8 @@ const app = Vue.createApp({
             this.resetDiceDisplay();
         },
         resetDiceDisplay() {
-            let cube = "";
-            for (let i = 0; i < this.remainDiceCount; i++) {
-                cube = document.getElementById("dice" + (i * 1 + 1));
-                if (cube === undefined || cube === null) break;
-                cube.classList.add('notransition');
-                cube.style.webkitTransform = "";
-                cube.style.transform = "";
-                cube.classList.remove('notransition');
-            }
+            this.remainDiceCount = 0;
+            setTimeout(() => this.remainDiceCount = this.diceCount, 100);
         },
         changeColor(index) {
             document.getElementById("color_input" + index).click();
