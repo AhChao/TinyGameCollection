@@ -16,6 +16,7 @@
       <button style="margin-left: 3px" v-show="phase=='choosing'&&chosen!=-1" @click="confirmChosen()">Confirm</button>
       <button style="margin-left: 3px" v-show="phase=='choosing'||phase=='roll'" @click="turnEnd()">End Turn</button>
     </h4>
+    <h4 class="text-center text-danger" v-show="endWarning">This is the last round of the game!</h4>
     <div class="mt-5"></div>
     <div class="container">
       <div class="row">
@@ -57,7 +58,9 @@
         </span>
       </div>
     </div>
-    <span>Player Count : <input type="number" v-model="inputPlayerCount" style="width: 50px" /></span><button @click="init()">Reset</button>
+    <span>Player Count : <input type="number" v-model="inputPlayerCount" style="width: 50px" /></span>
+    <span class="ms-2">Won By : <input type="number" v-model="inputWonPoint" style="width: 50px" /></span>
+    <button @click="init()">Reset</button>
     <h2>Rule</h2>
     <div>
       <ul>
@@ -71,8 +74,28 @@
       </ul>
     </div>
     <div id="snackbar">Some text some message..</div>
+    <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal" id="modalBtn">Launch demo modal</button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" style="background-color: white">
+        <div class="modal-content">
+          <div class="modal-header">
+            <!--<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>-->
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <img src="./img/mouse_happy.png" class="shake" :style="{'background-color':playerColor[wonPlayer-1],'width':'80%','align-self':'center'}" />
+          <div class="modal-body h4 text-center">Player {{wonPlayer}} won with {{playerScore[wonPlayer-1]}}!</div>
+          <div class="pyro">
+            <div class="before"></div>
+            <div class="after"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <a href="../index.html">Back to main page</a>
   </body>
   <script src="../lib/vue.global.js"></script>
+  <script src="../lib/jquery.min.js"></script>
+  <script src="../lib/bootstrap.bundle.min.js"></script>
   <script src="./getAllCheeses.js"></script>
 </html>

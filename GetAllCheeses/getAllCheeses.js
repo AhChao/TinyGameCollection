@@ -15,6 +15,10 @@ const app = Vue.createApp({
             choseList: [],
             playerColor: ["#FFF", "#FFF"],
             playerScore: [0, 0],
+            wonPoint: 25,
+            inputWonPoint: 25,
+            wonPlayer: 1,
+            endWarning: false,
             phase: "roll"//roll - wait - catPicking - choosing - turnSettlement
         };
     },
@@ -25,8 +29,10 @@ const app = Vue.createApp({
     },
     methods: {
         init() {
+            this.endWarning = false;
             this.playerTurn = 1;
             this.playerCount = Number.isInteger(this.inputPlayerCount) ? this.inputPlayerCount : 2;
+            this.wonPoint = Number.isInteger(this.inputWonPoint) ? this.inputWonPoint : 25;
             this.playerScore = [];
             for (let i = 0; i < this.playerCount; i++) this.playerScore.push(0);
             this.turnStart();
@@ -200,6 +206,12 @@ const app = Vue.createApp({
             this.playerScore[this.playerTurn - 1] += score;
             this.showMessageWithToast("Player " + this.playerTurn + " got " + score + " this turn!");
             this.phase = "turnSettlement";
+            if (this.playerScore.some(x => x >= this.wonPoint)) {
+                this.endWarning = true;
+                if (this.playerTurn == this.playerCount) {
+                    this.gameEnd();
+                }
+            }
             this.turnSettlement();
         },
         turnSettlement() {
@@ -231,6 +243,9 @@ const app = Vue.createApp({
             x.className = "show";
             setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
             document.getElementById("snackbar").innerText = msg;
+        },
+        gameEnd() {
+            document.getElementById("modalBtn").click();
         }
     }
 });
