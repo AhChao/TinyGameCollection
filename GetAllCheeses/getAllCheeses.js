@@ -6,13 +6,14 @@ const app = Vue.createApp({
             chosen: [-1],
             playerTurn: 1,//1 - n
             playerCount: 2,
+            inputPlayerCount: 2,
             randomMin: 1,
             randomMax: 30,
             diceCount: 13,
             remainDiceCount: 13,
             rollResult: [],
             choseList: [],
-            playerColor: ["#DCDCDC", "#DCDCDC"],
+            playerColor: ["#FFF", "#FFF"],
             playerScore: [0, 0],
             phase: "roll"//roll - wait - catPicking - choosing - turnSettlement
         };
@@ -24,8 +25,10 @@ const app = Vue.createApp({
     },
     methods: {
         init() {
-            this.playerScore = [0, 0];
             this.playerTurn = 1;
+            this.playerCount = Number.isInteger(this.inputPlayerCount) ? this.inputPlayerCount : 2;
+            this.playerScore = [];
+            for (let i = 0; i < this.playerCount; i++) this.playerScore.push(0);
             this.turnStart();
         },
         turnStart() {
