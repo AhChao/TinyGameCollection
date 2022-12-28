@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../SharedComponents/sharedComponents.css" />
   </head>
   <body id="app">
-    <h1 class="text-center">Get All Cheeses</h1>
+    <h1 class="text-center" @click="turnEnd()">Get All Cheeses</h1>
     <h4 class="text-center">
       Now is Player <span class="playerTurnHint">{{playerTurn}}</span>'s turn : [{{phase}}] phase <img v-if="phase=='choosing'&&chosen!=-1" :src="'./img/'+rollResult[chosen-1]+'.png'" class="chessImg" :style="{'background-color':playerColor[playerTurn-1]}" />
       <button style="margin-left: 3px" v-show="phase=='choosing'&&chosen!=-1" @click="confirmChosen()">Confirm</button>
