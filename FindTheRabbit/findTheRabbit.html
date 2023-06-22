@@ -28,8 +28,13 @@
         <div class="col-12"><button @click="setupOk">OK</button></div>
       </div>
     </div>
-    <div class="container" id="gameArea">
-      <div class="row" id="questionArea"></div>
+    <div class="container" id="gameArea" v-show="phase=='game'">
+      <div class="row" id="questionArea">
+        <div class="col-12"><h2>Q {{questionCount+1}}/{{questionMax}}.</h2></div>
+        <div class="col-6" v-for="(obj,index) in questionObjectArr">
+          <img :style="{'background-color':questionObjectColorArr[index],}" :src="'./img/'+obj+'_wb.png'" class="optionImgSize" />
+        </div>
+      </div>
       <div class="row" id="answerArea">
         <div class="row" v-for="index in playerCount"></div>
       </div>
