@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Find The Rabbit</title>
+    <link rel="stylesheet" href="../lib/bootstrap.min.css" />
+    <link rel="stylesheet" href="./findTheRabbit.css" />
+    <link rel="stylesheet" href="../SharedComponents/sharedComponents.css" />
+  </head>
+  <body id="app">
+    <h1>Find The Rabbit</h1>
+    <div class="container" style="display: none">
+      <div class="row">
+        <div class="col-2"><img src="./img/carrot_wb.png" style="background: orange" class="optionImgSize" /></div>
+        <div class="col-2"><img src="./img/eggplant_wb.png" style="background: purple" class="optionImgSize" /></div>
+        <div class="col-2"><img src="./img/grass_wb.png" style="background: greenyellow" class="optionImgSize" /></div>
+        <div class="col-2"><img src="./img/hole_wb.png" style="background: brown" class="optionImgSize" /></div>
+        <div class="col-2"><img src="./img/rabbit.png" style="background: white" class="optionImgSize" /></div>
+      </div>
+    </div>
+    <div class="container" id="setupArea" v-show="phase=='setup'">
+      <div class="row">
+        <div class="col-12"><h2>Setup</h2></div>
+        <div class="col-12">Question Count : <input type="number" v-model="questionMax" /></div>
+        <div class="col-12">Player Count: <input type="number" v-model="playerCount" /></div>
+        <div class="col-12"><button @click="setupOk">OK</button></div>
+      </div>
+    </div>
+    <div class="container" id="gameArea">
+      <div class="row" id="questionArea"></div>
+      <div class="row" id="answerArea">
+        <div class="row" v-for="index in playerCount"></div>
+      </div>
+    </div>
+    <button @click="init()">Reset</button>
+    <h2>Rule</h2>
+    <div>
+      <ul>
+        <li>If any obj in the square match the orgin color, it will be the answer.</li>
+        <li>If all objs are not map to its origin color, select the one color is not showing in the square.</li>
+        <li>Faster player answers the correct option won the point.</li>
+        <li>In the end, the player gets most points won the game.</li>
+      </ul>
+    </div>
+    <div id="snackbar">Some text some message..</div>
+    <a href="../index.html">Back to main page</a>
+  </body>
+  <script src="../lib/vue.global.js"></script>
+  <script src="./findTheRabbit.js"></script>
+</html>
