@@ -23,6 +23,9 @@ td{
 .playerTurnHint{
     color: red;
 }
-.optionImgSize{
+.questionImgSize{
     width: 80px;
+}
+.optionImgSize{
+    width: 100%;
 }

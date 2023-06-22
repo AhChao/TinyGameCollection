@@ -5,7 +5,7 @@ const app = Vue.createApp({
             playerCount: 2,
             questionMax: 15,
             objectArr: ["carrot", "eggplant", "grass", "hole", "rabbit"],
-            objectOriginColorArr: ["orange", "purple", "greenyellow", "white"],
+            objectOriginColorArr: ["orange", "purple", "greenyellow", "brown", "white"],
             questionObjectArr: [],
             questionObjectColorArr: [],
             questionCount: 0,
@@ -41,11 +41,21 @@ const app = Vue.createApp({
             }
             return array;
         },
+        submitAnswer(playerId, objId) {
+            if (this.answerOfTheQuestion == this.objectArr[objId]) {
+                alert("Correct!");
+            }
+            else {
+                alert("Wrong Answer!Correct Answer should be " + this.answerOfTheQuestion + "!");
+            };
+            this.generateTheQuestion();
+            this.questionCount++;
+        },
         generateTheQuestion() {
             let fuifillUniqueAnswer = false;
             let mapColorCount = 0;
             while (!fuifillUniqueAnswer) {
-                this.mapColorCount = 0;
+                mapColorCount = 0;
                 this.questionObjectArr = this.shuffleArray(JSON.parse(JSON.stringify(this.objectArr))).slice(0, 2);
                 this.questionObjectColorArr = this.shuffleArray(JSON.parse(JSON.stringify(this.objectOriginColorArr))).slice(0, 2);
                 for (var i = 0; i < 2; i++) {
@@ -54,21 +64,20 @@ const app = Vue.createApp({
                         mapColorCount++;
                         this.answerOfTheQuestion = this.questionObjectArr[i];
                     }
-                    if (mapColorCount == 1) {
+                }
+                if (mapColorCount == 1) {
+                    fuifillUniqueAnswer = true;
+                }
+                else if (mapColorCount == 0) {
+                    let tempArr = JSON.parse(JSON.stringify(this.questionObjectArr));
+                    tempArr.push(this.objectArr[this.objectOriginColorArr.indexOf(this.questionObjectColorArr[0])]);
+                    tempArr.push(this.objectArr[this.objectOriginColorArr.indexOf(this.questionObjectColorArr[1])]);
+                    if ([...new Set(tempArr)].length == 4) {
                         fuifillUniqueAnswer = true;
-                    }
-                    else if (mapColorCount == 0) {
-                        let tempArr = JSON.parse(JSON.stringify(this.questionObjectArr));
-                        tempArr.push(this.objectArr[this.objectOriginColorArr.indexOf(this.questionObjectColorArr[0])]);
-                        tempArr.push(this.objectArr[this.objectOriginColorArr.indexOf(this.questionObjectColorArr[1])]);
-                        if ([...new Set(tempArr)].length == 4) {
-                            fuifillUniqueAnswer = true;
-                            this.answerOfTheQuestion = this.objectArr.filter(x => !tempArr.includes(x));
-                        }
+                        this.answerOfTheQuestion = this.objectArr.filter(x => !tempArr.includes(x));
                     }
                 }
             }
-            console.log(this.questionObjectArr, this.questionObjectColorArr, this.answerOfTheQuestion);
         },
         WonTheGameBy(name) {
             var x = document.getElementById("snackbar");
