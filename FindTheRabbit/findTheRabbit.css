@@ -1,31 +1,35 @@
-#targetTable{
-    border: 2px solid black;
-    width: 50%;
-}
-td{
-    border: 2px solid black;
-    width: 50px;
-    overflow: hidden;
-}
-.chosen{
-    border: 2px solid red;
-    border-radius: 3px;
-}
-.chessImg{
-    width: 80px;
-}
-.cellWithHint{
-    border: 2px dashed red;
-}
-.turnHint{
-    font-size: 30px;
-}
-.playerTurnHint{
-    color: red;
-}
 .questionImgSize{
     width: 80px;
 }
 .optionImgSize{
     width: 100%;
+}
+/* Plus animator */
+.plusAni {
+    color: #3f3f3f;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    animation-name: fade-in-up;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-timing-function: ease;
+}
+
+@keyframes fade-in-up {
+    0%,
+    10% {
+      top: 33%;
+      left:27%;
+      opacity: 1;
+    }
+    100% {
+      top: 31%;
+      left: 27%;
+      opacity: 0;
+    }
+}
+/* Plus animator end */
+
+.monoText{
+    font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
 }

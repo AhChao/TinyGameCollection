@@ -2,8 +2,9 @@ const app = Vue.createApp({
     created() { },
     data() {
         return {
-            playerCount: 2,
+            playerCount: 1,//1-2
             questionMax: 15,
+            score: [],
             objectArr: ["carrot", "eggplant", "grass", "hole", "rabbit"],
             objectOriginColorArr: ["orange", "purple", "greenyellow", "brown", "white"],
             questionObjectArr: [],
@@ -11,23 +12,41 @@ const app = Vue.createApp({
             questionCount: 0,
             answerOfTheQuestion: "",
             phase: "setup",
+            answerFilling: [],
+            showScoreAnimation: false,
+            timerInMileSecond: 0,
+            timerInstance: {},
+            isThePlayerAnswerCorrect: [false],
+            detailAnswerResult: [],//{wrong:0,correct:0}
         };
     },
     mounted() {
         this.init();
     },
     computed: {
+        isSinglePlayer: function () { return this.playerCount == 1; },
+        timerInSecond: function () { return (this.timerInMileSecond / 1000).toFixed(1);; },
     },
     methods: {
         init() {
             this.phase = "setup";
-            this.playerCount = 2;
+            this.playerCount = 1;
+            this.score = [];
+            for (var i = 0; i < this.playerCount; i++) {
+                this.score.push(0);
+                this.answerFilling[i] = -1;
+                this.isThePlayerAnswerCorrect[i] = false;
+                this.detailAnswerResult[i] = { "wrong": 0, "correct": 0 }
+            }
             this.questionMax = 15;
             this.questionCount = 0;
         },
         setupOk() {
             this.phase = "game";
             this.generateTheQuestion();
+            if (this.isSinglePlayer) {
+                this.timerStart();
+            }
         },
         getRandom(max) {//0-max-1
             return Math.floor(Math.random() * max);
@@ -42,14 +61,33 @@ const app = Vue.createApp({
             return array;
         },
         submitAnswer(playerId, objId) {
+            this.answerFilling[playerId] = this.objectArr[objId];
             if (this.answerOfTheQuestion == this.objectArr[objId]) {
-                alert("Correct!");
+                this.score[playerId]++;
+                this.detailAnswerResult[playerId]["correct"]++;
             }
             else {
-                alert("Wrong Answer!Correct Answer should be " + this.answerOfTheQuestion + "!");
+                this.score[playerId]--;
+                this.detailAnswerResult[playerId]["wrong"]++;
+                for (let i = 0; i < this.playerCount; i++) {
+                    if (i != playerId) {
+                        this.score[i]++;
+                    }
+                }
             };
-            this.generateTheQuestion();
-            this.questionCount++;
+            this.isThePlayerAnswerCorrect[playerId] = this.answerFilling[playerId] == this.answerOfTheQuestion;
+            this.showScoreAnimation = true;
+            setTimeout(() => {
+                this.showScoreAnimation = false;
+            }, 1000);
+            if (this.questionCount + 1 < this.questionMax) {
+                this.generateTheQuestion();
+                this.questionCount++;
+            }
+            else {
+                this.settleTheGame();
+                console.log("Settle The Game");
+            }
         },
         generateTheQuestion() {
             let fuifillUniqueAnswer = false;
@@ -84,6 +122,20 @@ const app = Vue.createApp({
             x.className = "show";
             setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
             document.getElementById("snackbar").innerText = "Player " + chessOwner + " Won The Game!";
+        },
+        timerStart() {
+            this.timerInMileSecond = 0;
+            this.timerInstance = setInterval(() => {
+                this.timerInMileSecond += 100;
+            }, 100);
+        },
+        settleTheGame() {
+            clearInterval(this.timerInstance);
+            if (this.isSinglePlayer) {
+                alert("You finish the " + this.questionMax + " questions in " + this.timerInSecond + " seconds!\n" +
+                    "Correct percentage is " + this.detailAnswerResult[0]["correct"] + " / " + this.questionMax + "\n" +
+                    "Click the reset button to player a new game!");
+            }
         }
     }
 });

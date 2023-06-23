@@ -30,6 +30,7 @@
     </div>
     <div class="container" id="gameArea" v-show="phase=='game'">
       <div class="row" id="questionArea">
+        <div class="col-12 monoText" v-if="isSinglePlayer"><h2>Times : {{timerInSecond}} s</h2></div>
         <div class="col-12"><h2>Q {{questionCount+1}}/{{questionMax}}.</h2></div>
         <div class="col-6" v-for="(obj,index) in questionObjectArr">
           <img :style="{'background-color':questionObjectColorArr[index],}" :src="'./img/'+obj+'_wb.png'" class="questionImgSize" />
@@ -39,6 +40,12 @@
       <div class="row" id="answerArea">
         <div class="col-6" v-for="index in playerCount" style="border: black solid 3px">
           <h3>Player {{index}}</h3>
+          <span
+            ><h4>
+              Score {{score[index-1]}}
+              <span class="plusAni secondary" :style="{'color':isThePlayerAnswerCorrect[index-1]? '#00cc66':'#cc0000'}" v-if="showScoreAnimation">{{isThePlayerAnswerCorrect[index-1] ? 'O' : 'X'}}</span>
+            </h4>
+          </span>
           <div class="row">
             <span class="col-4"><img src="./img/carrot_wb.png" style="background: orange" @click="submitAnswer(index-1,0)" class="img-fluid" /></span>
             <span class="col-4"><img src="./img/eggplant_wb.png" style="background: purple" @click="submitAnswer(index-1,1)" class="img-fluid" /></span>
