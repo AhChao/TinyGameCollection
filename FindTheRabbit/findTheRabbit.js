@@ -18,6 +18,7 @@ const app = Vue.createApp({
             timerInstance: {},
             isThePlayerAnswerCorrect: [false],
             detailAnswerResult: [],//{wrong:0,correct:0}
+            modalMessage: "",
         };
     },
     mounted() {
@@ -132,9 +133,12 @@ const app = Vue.createApp({
         settleTheGame() {
             clearInterval(this.timerInstance);
             if (this.isSinglePlayer) {
-                alert("You finish the " + this.questionMax + " questions in " + this.timerInSecond + " seconds!\n" +
+                this.modalMessage =
+                    "You finish the " + this.questionMax + " questions in " + this.timerInSecond + " seconds!\n" +
                     "Correct percentage is " + this.detailAnswerResult[0]["correct"] + " / " + this.questionMax + "\n" +
-                    "Click the reset button to player a new game!");
+                    "Click the reset button to player a new game!";
+                document.getElementById("modalBtn").click();
+
             }
         }
     }

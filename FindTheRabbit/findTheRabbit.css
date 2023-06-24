@@ -33,3 +33,12 @@
 .monoText{
     font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
 }
+
+.shake {
+    animation: shake 2000ms infinite;
+}
+
+.areaBorder{
+    border: 3px solid black;
+    border-radius: 5px;
+}

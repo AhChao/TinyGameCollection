@@ -25,20 +25,19 @@
         <div class="col-12"><h2>Setup</h2></div>
         <div class="col-12">Question Count : <input type="number" v-model="questionMax" /></div>
         <div class="col-12">Player Count: <input type="number" v-model="playerCount" /></div>
-        <div class="col-12"><button @click="setupOk">OK</button></div>
+        <div class="col-12"><button @click="setupOk" class="btn btn-secondary">OK</button></div>
       </div>
     </div>
-    <div class="container" id="gameArea" v-show="phase=='game'">
-      <div class="row" id="questionArea">
+    <div class="container mt-2" id="gameArea" v-show="phase=='game'">
+      <div class="row mb-6" id="questionArea">
         <div class="col-12 monoText" v-if="isSinglePlayer"><h2>Times : {{timerInSecond}} s</h2></div>
         <div class="col-12"><h2>Q {{questionCount+1}}/{{questionMax}}.</h2></div>
         <div class="col-6" v-for="(obj,index) in questionObjectArr">
           <img :style="{'background-color':questionObjectColorArr[index],}" :src="'./img/'+obj+'_wb.png'" class="questionImgSize" />
         </div>
       </div>
-      <hr />
-      <div class="row" id="answerArea">
-        <div class="col-6" v-for="index in playerCount" style="border: black solid 3px">
+      <div class="row mt-4" id="answerArea">
+        <div :class="{'col-6':true, 'areaBorder':!isSinglePlayer}" v-for="index in playerCount">
           <h3>Player {{index}}</h3>
           <span
             ><h4>
@@ -61,19 +60,42 @@
         </div>
       </div>
     </div>
-    <button @click="init()">Reset</button>
-    <h2>Rule</h2>
-    <div>
-      <ul>
-        <li>If any obj in the square match the orgin color, it will be the answer.</li>
-        <li>If all objs are not map to its origin color, select the one color is not showing in the square.</li>
-        <li>Faster player answers the correct option won the point.</li>
-        <li>In the end, the player gets most points won the game.</li>
-      </ul>
+    <div class="container">
+      <button @click="init()" class="btn btn-secondary mt-2 mb-2">Reset</button>
+      <h2>Rule</h2>
+      <div>
+        <ul>
+          <li>If any obj in the square match the orgin color, it will be the answer.</li>
+          <li>If all objs are not map to its origin color, select the one color is not showing in the square.</li>
+          <li>Faster player answers the correct option won the point.</li>
+          <li>In the end, the player gets most points won the game.</li>
+        </ul>
+      </div>
+      <div id="snackbar">Some text some message..</div>
+      <a href="../index.html">Back to main page</a>
     </div>
-    <div id="snackbar">Some text some message..</div>
-    <a href="../index.html">Back to main page</a>
+
+    <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal" id="modalBtn"></button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" style="background-color: white">
+        <div class="modal-content">
+          <div class="modal-header">
+            <!--<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>-->
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <img src="./img/rabbit_origin.png" class="shake" style="background-color: white; width: 50%; align-self: center" />
+          <div class="modal-body text-center">{{modalMessage}}</div>
+          <div class="pyro">
+            <div class="before"></div>
+            <div class="after"></div>
+          </div>
+          <button @click="init()" class="btn btn-secondary w-25">Reset</button>
+        </div>
+      </div>
+    </div>
   </body>
   <script src="../lib/vue.global.js"></script>
+  <script src="../lib/jquery.min.js"></script>
+  <script src="../lib/bootstrap.bundle.min.js"></script>
   <script src="./findTheRabbit.js"></script>
 </html>
