@@ -139,9 +139,22 @@ const app = Vue.createApp({
                     "You finish the " + this.questionMax + " questions in " + this.timerInSecond + " seconds!\n" +
                     "Correct percentage is " + this.detailAnswerResult[0]["correct"] + " / " + this.questionMax + "\n" +
                     "Click the reset button to player a new game!";
-                document.getElementById("modalBtn").click();
-
             }
+            else {
+                let winner = -1;
+                let winnerScore = -9999;
+                for (let i = 0; i < this.playerCount; i++) {
+                    if (winnerScore < this.score[i]) {
+                        winner = i;
+                        winnerScore = this.score[i];
+                    }
+                }
+                this.modalMessage =
+                    "Player " + (winner * 1 + 1) + " won the game with " + winnerScore + " points!\n" +
+                    "You are very good at finding the rabbit!\n" +
+                    "Click the reset button to player a new game!";
+            }
+            document.getElementById("modalBtn").click();
         }
     }
 });

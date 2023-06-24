@@ -86,12 +86,12 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <img src="./img/rabbit_origin.png" class="shake" style="background-color: white; width: 50%; align-self: center" />
-          <div class="modal-body text-center">{{modalMessage}}</div>
+          <div class="modal-body text-center" style="white-space: pre-line">{{modalMessage}}</div>
           <div class="pyro">
             <div class="before"></div>
             <div class="after"></div>
           </div>
-          <button @click="init()" class="btn btn-secondary w-25">Reset</button>
+          <button @click="init()" class="btn btn-secondary w-25" style="align-self: center">Reset</button>
         </div>
       </div>
     </div>
