@@ -19,6 +19,7 @@ const app = Vue.createApp({
             isThePlayerAnswerCorrect: [false],
             detailAnswerResult: [],//{wrong:0,correct:0}
             modalMessage: "",
+            answeringPlayerId: 0,
         };
     },
     mounted() {
@@ -33,17 +34,17 @@ const app = Vue.createApp({
             this.phase = "setup";
             this.playerCount = 1;
             this.score = [];
+            this.questionMax = 15;
+            this.questionCount = 0;
+        },
+        setupOk() {
+            this.phase = "game";
             for (var i = 0; i < this.playerCount; i++) {
                 this.score.push(0);
                 this.answerFilling[i] = -1;
                 this.isThePlayerAnswerCorrect[i] = false;
                 this.detailAnswerResult[i] = { "wrong": 0, "correct": 0 }
             }
-            this.questionMax = 15;
-            this.questionCount = 0;
-        },
-        setupOk() {
-            this.phase = "game";
             this.generateTheQuestion();
             if (this.isSinglePlayer) {
                 this.timerStart();
@@ -62,6 +63,7 @@ const app = Vue.createApp({
             return array;
         },
         submitAnswer(playerId, objId) {
+            this.answeringPlayerId = playerId;
             this.answerFilling[playerId] = this.objectArr[objId];
             if (this.answerOfTheQuestion == this.objectArr[objId]) {
                 this.score[playerId]++;

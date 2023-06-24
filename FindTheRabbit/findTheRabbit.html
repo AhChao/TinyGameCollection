@@ -42,7 +42,9 @@
           <span
             ><h4>
               Score {{score[index-1]}}
-              <span class="plusAni secondary" :style="{'color':isThePlayerAnswerCorrect[index-1]? '#00cc66':'#cc0000'}" v-if="showScoreAnimation">{{isThePlayerAnswerCorrect[index-1] ? 'O' : 'X'}}</span>
+              <span style="position: absolute">
+                <span class="plusAni secondary" :style="{'color':isThePlayerAnswerCorrect[index-1]? '#00cc66':'#cc0000','font-size':'25px'}" v-if="showScoreAnimation&&answeringPlayerId==index-1">{{isThePlayerAnswerCorrect[index-1] ? 'O' : 'X'}}</span>
+              </span>
             </h4>
           </span>
           <div class="row">

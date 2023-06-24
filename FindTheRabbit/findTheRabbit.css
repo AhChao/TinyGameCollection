@@ -7,10 +7,10 @@
 /* Plus animator */
 .plusAni {
     color: #3f3f3f;
-    position: fixed;
+    position: sticky;
     transform: translate(-50%, -50%);
     animation-name: fade-in-up;
-    animation-duration: 1s;
+    animation-duration: 1.2s;
     animation-iteration-count: 1;
     animation-timing-function: ease;
 }
@@ -18,13 +18,11 @@
 @keyframes fade-in-up {
     0%,
     10% {
-      top: 33%;
-      left:27%;
+      position: sticky;
       opacity: 1;
     }
     100% {
-      top: 31%;
-      left: 27%;
+      position: sticky;
       opacity: 0;
     }
 }
